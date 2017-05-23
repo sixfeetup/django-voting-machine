@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    <div class="row">
+    <div class="col-md-8">
+      <div class="panel panel-default">
+        <div class="panel-body">
+            <h2>Teams</h2>
+        </div>
+      </div>
+    </div>
+    </div>
+    <ul>
+        {% for team in object_list %}
+            <li>{{ team.title }}</li>
+        {% endfor %}
+    </ul>
+{% endblock %}
+
+
+
+{#<h1>Team</h1>#}
+{#<ul>#}
+{#{% for team in object_list %}#}
+{#    <li>{{ team.pub_date|date }} - {{ team.headline }}</li>#}
+{#{% empty %}#}
+{#    <li>No teams yet.</li>#}
+{#{% endfor %}#}
+{#</ul>#}

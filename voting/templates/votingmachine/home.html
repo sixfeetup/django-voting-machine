@@ -1,0 +1,30 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block page %}
+
+  <div class="row">
+    <div class="col-md-12">
+      <img src="{% static 'img/votinglogo.png' %}" class="banner">
+    </div>
+
+    {% for event in events %}
+      <div class="col-md-3">
+        <div class="thumbnail">
+          <ul>
+              {% for event in event_list %}
+                <li><a href="{% url 'votingmachine:event_detail' event.id %}">{{ event.event_text }}</a></li>
+              {% endfor %}
+          </ul>
+
+          <div class="caption">
+            <p><span>by <a href="{% url 'votingmachine:profile' event.user.username %}">{{ event.user.username }}</a></span></p>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock %}
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
+        <script src="{% static 'js/bootstrap.min.js' %}"></script>

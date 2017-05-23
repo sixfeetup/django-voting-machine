@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load staticfiles %}
+
+{% block content %}
+    {% if messages %}
+        <ul>
+            {% for message in messages %}
+                <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
+
+
+    <h1>Profile Detail: {{ Profile }}</h1>
+    <li>Status: {{ Profile.status }}</li>
+    <li>Event: {{ Profile.event }}</li>
+    <li>description: {{ Profile.description }}</li>
+    <p><a href="/user/settings/account/{{ Profile.pk }}/">Edit Account</a></p>
+    <p><a href="/user/settings/profile/{{ Profile.pk }}/">Edit Profile</a></p>
+{% endblock %}
+
+{#{% block page %}#}
+{#  <div class="jumbotron text-center">#}
+{#    <h1><b>{{ profile.user.username }}</b></h1>#}
+{#    <p>{{ profile.status }}</p>#}
+{#  </div>#}
+{#  <div class="panel panel-default">#}
+{#    <div class="panel-body">#}
+{#      <h3 class="text-uppercase"><b>About {{ profile.user.username }}</b></h3>#}
+{#      <hr/>#}
+{#      <p>{{ profile.event}}</p>#}
+{#    </div>#}
+{#  </div>#}
+{#  <h3 class="text-uppercase" style="margin-top: 50px"><b>{{ profile.user.username}}'s profile</b></h3>#}
+{#{% endblock%}#}

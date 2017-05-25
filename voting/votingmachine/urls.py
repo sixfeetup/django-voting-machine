@@ -1,7 +1,7 @@
 from django.conf.urls import url
 
 from . import views
-from .views import HomePageView, TeamListView, EventListView, EventDetail, ProfileDetail, ResultDetail
+# from .views import HomePageView, TeamListView, EventListView, EventDetail, ProfileDetail, ResultDetail
 
 app_name = 'votingmachine'
 urlpatterns = [
@@ -21,12 +21,12 @@ urlpatterns = [
         name='event_list'
     ),
     url(
-        regex=r'^event/(?P<pk>\d+)/$',
+        regex=r'^event/(?P<pk>[\w.@+-]+)/$',
         view=views.EventDetail.as_view(),
         name='event_detail'
     ),
     url(
-        regex=r'^profile/(?P<pk>[\w-]+)/$',
+        regex=r'^profile/(?P<pk>[\w.@+-]+)/$$',
         view=views.ProfileDetail.as_view(),
         name='profile'
     ),

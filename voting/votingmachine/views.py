@@ -13,7 +13,7 @@ from .models import Event, Team, Profile, Voting, Result
 
 
 class HomePageView(TemplateView):
-    template_name = 'voting/templates/pages/home.html'
+    template_name = 'votingmachine/home.html'
 
     # def get_context_data(self, **kwargs):
     #     context = super(HomePageView, self).get_context_data(**kwargs)
@@ -47,9 +47,10 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
     template_name = 'votingmachine/profile.html'
     #use username instead of pk
     # slug_field = "username"
+    # slug_field = 'user'
+    # slug_url_kwarg = 'user'
     # override the context user object from user to user_profile, use {{ user_profile }} instead of {{ Profile }} in template
     #context_object_name = "user_profile"
-
 
 
 #class Voting

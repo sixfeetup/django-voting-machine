@@ -17,7 +17,7 @@ class TeamForm(forms.ModelForm):
         model = Team
         exclude = ()
         widgets = {
-            'members': SearchableSelect(model='voteapp.Profile', search_field='user__username', many='True', limit=100)
+            'members': SearchableSelect(model='votingmachine.Profile', search_field='user__username', many='True', limit=100)
         }
 
 

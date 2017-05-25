@@ -20,7 +20,7 @@ urlpatterns = [
 
     # VotingMachineApp management
     url(r'^votingmachine/', include('voting.votingmachine.urls', namespace='votingmachine')),
-    # url('^searchableselect/', include('searchableselect.urls')),
+    url('^searchableselect/', include('searchableselect.urls')),
     # url('^auth/', include('django.contrib.auth.urls', namespace='auth')),
     # url(r'^registration/', include('registration.backends.hmac.urls')),
     #(r'^accounts/', include('registration.backends.default.urls')), #redux

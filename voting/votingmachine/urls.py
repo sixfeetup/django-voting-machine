@@ -32,7 +32,7 @@ urlpatterns = [
     ),
     url(
         regex=r'^voting/$',
-        view=views.voting,
+        view=views.VotingView.as_view(),
         name='voting'
     ),
     #url(r'^result$', ResultDetail.as_view(), name='result'),

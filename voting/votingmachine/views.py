@@ -53,26 +53,31 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
     #context_object_name = "user_profile"
 
 
-#class Voting
-@login_required(login_url="/")
-def voting(request, team_id):
-    team = get_object_or_404(Team, pk=team_id)
+class VotingView(LoginRequiredMixin, TemplateView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    model = Voting
+    template_name = 'votingmachine/voting_detail.html'
 
-    try:
-        selected_category = category.choice_set.get(pk=request.POST['choice'])
-    except (KeyError, Category.DoesNotExist):
-        # Redisplay the question voting form.
-        return render(request, 'votingmachine/voting_detail.html', {
-            'question': question,
-            'error_message': "You didn't select a choice.",
-        })
-    else:
-        selected_choice.votes += 1
-        selected_choice.save()
-        # Always return an HttpResponseRedirect after successfully dealing
-        # with POST data. This prevents data from being posted twice if a
-        # user hits the Back button.
-        return HttpResponseRedirect(reverse('votingmachine:results', args=(question.id,)))
+# @login_required(login_url="/")
+# def voting(request, team_id):
+#     team = get_object_or_404(Team, pk=team_id)
+#
+#     try:
+#         selected_category = category.choice_set.get(pk=request.POST['choice'])
+#     except (KeyError, Category.DoesNotExist):
+#         # Redisplay the question voting form.
+#         return render(request, 'votingmachine/voting_detail.html', {
+#             'question': question,
+#             'error_message': "You didn't select a choice.",
+#         })
+#     else:
+#         selected_choice.votes += 1
+#         selected_choice.save()
+#         # Always return an HttpResponseRedirect after successfully dealing
+#         # with POST data. This prevents data from being posted twice if a
+#         # user hits the Back button.
+#         return HttpResponseRedirect(reverse('votingmachine:results', args=(question.id,)))
 
 
 class ResultDetail(LoginRequiredMixin, DetailView):

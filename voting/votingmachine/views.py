@@ -37,14 +37,14 @@ class EventDetail(LoginRequiredMixin, DetailView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = Event
-    template_name = 'voteapp/event_detail.html'
+    template_name = 'votingmachine/event_detail.html'
 
 
 class ProfileDetail(LoginRequiredMixin, DetailView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = Profile
-    template_name = 'voteapp/profile.html'
+    template_name = 'votingmachine/profile.html'
     #use username instead of pk
     # slug_field = "username"
     # override the context user object from user to user_profile, use {{ user_profile }} instead of {{ Profile }} in template
@@ -61,7 +61,7 @@ def voting(request, team_id):
         selected_category = category.choice_set.get(pk=request.POST['choice'])
     except (KeyError, Category.DoesNotExist):
         # Redisplay the question voting form.
-        return render(request, 'voteapp/detail.html', {
+        return render(request, 'votingmachine/voting_detail.html', {
             'question': question,
             'error_message': "You didn't select a choice.",
         })
@@ -71,17 +71,17 @@ def voting(request, team_id):
         # Always return an HttpResponseRedirect after successfully dealing
         # with POST data. This prevents data from being posted twice if a
         # user hits the Back button.
-        return HttpResponseRedirect(reverse('voteapp:results', args=(question.id,)))
+        return HttpResponseRedirect(reverse('votingmachine:results', args=(question.id,)))
 
 
 class ResultDetail(LoginRequiredMixin, DetailView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = Result
-    template_name = 'voteapp/result.html'
+    template_name = 'votingmachine/result.html'
 
 
 def search(request):
     events = Event.objects.filter(title__contains=request.GET['title'])
-    return render(request, 'voteapp/home.html', {"events": events})
+    return render(request, 'votingmachine/home.html', {"events": events})
 

@@ -1,10 +1,12 @@
 from django.db import models
 from django.contrib.auth.models import User
-#, Group
+from django.db.models import Avg, Count, Sum
+from decimal import Decimal
 from django.contrib.contenttypes.models import ContentType
 from django.utils import timezone
 from django.contrib.auth import get_user_model as user_model
 User = user_model()
+
 
 class Event(models.Model):
     WEIGHT_CHOICES = (
@@ -82,6 +84,11 @@ class Voting(models.Model):
     team = models.ForeignKey(Team)
     event = models.ForeignKey(Event, default='')
 
+    # count = models.PositiveIntegerField(default=0)
+    # total = models.PositiveIntegerField(default=0)
+    # result = models.SmallIntegerField(choices=VOTES_CHOICES, default=1)
+    # average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
+
     class Meta:
         unique_together = [('user', 'event', 'category')]
 
@@ -95,4 +102,29 @@ class Result(models.Model):
         (2, '2'),
         (3, '3')
     )
+    count = models.PositiveIntegerField(default=0)
+    total = models.PositiveIntegerField(default=0)
     result = models.SmallIntegerField(choices=VOTES_CHOICES, default=1)
+    average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
+
+    @property
+    def percentage(self):
+        return (self.average / app_settings.STAR_RATINGS_RANGE) * 100
+
+    def to_dict(self):
+        return {
+            'count': self.count,
+            'total': self.total,
+            'average': self.average,
+            'percentage': self.percentage,
+        }
+
+    def calculate(self):
+        """
+        Recalculate the totals, and save.
+        """
+        aggregates = self.user_ratings.aggregate(total=Sum('score'), average=Avg('score'), count=Count('score'))
+        self.count = aggregates.get('count') or 0
+        self.total = aggregates.get('total') or 0
+        self.average = aggregates.get('average') or 0.0
+        self.save()

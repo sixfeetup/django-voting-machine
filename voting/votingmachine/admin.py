@@ -3,7 +3,7 @@ from django import forms
 from django.contrib.admin.widgets import AdminFileWidget
 from searchableselect.widgets import SearchableSelect
 
-from .models import Event, Profile, Team, Voting
+from .models import Event, Profile, Team, Vote
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -17,12 +17,15 @@ class TeamForm(forms.ModelForm):
         model = Team
         exclude = ()
         widgets = {
-            'members': SearchableSelect(model='votingmachine.Profile', search_field='user__username', many='True', limit=100)
+            'members': SearchableSelect(model='votingmachine.Profile',
+                                        search_field='user__username',
+                                        many='True', limit=100
+                                        )
         }
 
 
 class TeamAdmin(admin.ModelAdmin):
-    list_display = ['title', 'description']
+    list_display = ['title', 'leader', 'all_members', 'description']
     list_filter = ['title', 'description']
     form = TeamForm
 admin.site.register(Team, TeamAdmin)
@@ -39,8 +42,8 @@ class ProfileAdmin(admin.ModelAdmin):
 admin.site.register(Profile, ProfileAdmin)
 
 
-class VotingAdmin(admin.ModelAdmin):
-    list_display = ['event', 'team', 'user', 'category', 'votes']
-    list_filter = ['event', 'team', 'user', 'category', 'votes']
+class VoteAdmin(admin.ModelAdmin):
+    list_display = ['event', 'user', 'category', 'votes']
+    list_filter = ['event', 'user', 'category', 'votes']
     ordering = ['event']
-admin.site.register(Voting, VotingAdmin)
+admin.site.register(Vote, VoteAdmin)

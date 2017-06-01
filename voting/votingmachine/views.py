@@ -1,7 +1,7 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 
 
 from django.views.generic.list import ListView
@@ -9,7 +9,9 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Event, Team, Profile, Voting, Result
+from .models import Event, Team, Profile, Vote
+from django.contrib.auth import get_user_model as user_model
+User = user_model()
 
 
 class HomePageView(TemplateView):
@@ -53,41 +55,42 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
     #context_object_name = "user_profile"
 
 
-class VotingView(LoginRequiredMixin, TemplateView):
+class VoteView(LoginRequiredMixin, TemplateView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
-    model = Voting
+    model = Vote
     template_name = 'votingmachine/voting_detail.html'
+    select_related = 'user'
+    context_vote_name = 'votes'
+    template_name_suffix = '_voted_by'
 
-# @login_required(login_url="/")
-# def voting(request, team_id):
-#     team = get_object_or_404(Team, pk=team_id)
-#
-#     try:
-#         selected_category = category.choice_set.get(pk=request.POST['choice'])
-#     except (KeyError, Category.DoesNotExist):
-#         # Redisplay the question voting form.
-#         return render(request, 'votingmachine/voting_detail.html', {
-#             'question': question,
-#             'error_message': "You didn't select a choice.",
-#         })
-#     else:
-#         selected_choice.votes += 1
-#         selected_choice.save()
-#         # Always return an HttpResponseRedirect after successfully dealing
-#         # with POST data. This prevents data from being posted twice if a
-#         # user hits the Back button.
-#         return HttpResponseRedirect(reverse('votingmachine:results', args=(question.id,)))
+    def get_context_votes_name(self):
+        return self.context_vote_name
+
+    def get_votes(self, obj):
+        queryset = self.get_votes(obj)
+        if self.select_related:
+            queryset = queryset.select_related(self.select_related)
+        return queryset
 
 
-class ResultDetail(LoginRequiredMixin, DetailView):
+class ResultView(LoginRequiredMixin, TemplateView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
-    model = Result
+    model = Vote
     template_name = 'votingmachine/result.html'
+
+    # def top_voted(self):
+    #     return self(score=Sum('votes')).order_by('score')
 
 
 def search(request):
     events = Event.objects.filter(title__contains=request.GET['title'])
     return render(request, 'votingmachine/home.html', {"events": events})
 
+
+class ProofView(LoginRequiredMixin, ListView):
+    login_url = '/login/'
+    redirect_field_name = 'redirect_to'
+    model = Team
+    template_name = 'votingmachine/proof.html'

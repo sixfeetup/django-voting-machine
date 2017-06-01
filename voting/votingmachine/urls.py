@@ -11,11 +11,6 @@ urlpatterns = [
         name='home'
     ),
     url(
-        regex=r'^team/$',
-        view=views.TeamListView.as_view(),
-        name='team_list'
-    ),
-    url(
         regex=r'^event/$',
         view=views.EventListView.as_view(),
         name='event_list'
@@ -26,14 +21,23 @@ urlpatterns = [
         name='event_detail'
     ),
     url(
+        regex=r'^event/(?P<pk>[\w.@+-]+)/team/$',
+        view=views.TeamListView.as_view(),
+        name='team_list'
+    ),
+    url(
         regex=r'^profile/(?P<pk>[\w.@+-]+)/$$',
         view=views.ProfileDetail.as_view(),
         name='profile'
     ),
     url(
-        regex=r'^voting/$',
-        view=views.VotingView.as_view(),
-        name='voting'
+        regex=r'^event/(?P<pk>[\w.@+-]+)/vote/$',
+        view=views.VoteView.as_view(),
+        name='vote'
     ),
-    #url(r'^result$', ResultDetail.as_view(), name='result'),
+    url(
+        regex=r'^event/(?P<pk>[\w.@+-]+)/result/$',
+        view=views.ResultView.as_view(),
+        name='result'
+    ),
 ]

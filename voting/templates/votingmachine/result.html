@@ -1,9 +1,25 @@
 <h1>{{ question.question_text }}</h1>
 
-<ul>
-{% for choice in question.choice_set.all %}
-    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-{% endfor %}
-</ul>
+{% if is_voted %}
+     Show vote results
+{% else %}
+     Show vote form
+{% endif %}
 
-<a href="{% url 'votingmachine:event_detail' event.id %}">Vote again?</a>
+
+{##}
+{#<ul>#}
+{#{% for vote in vote.choice_set.all %}#}
+{#    <li>{{ choice.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>#}
+{#{% endfor %}#}
+{#</ul>#}
+{##}
+{#<a href="{% url 'votingmachine:event_detail' event.id %}">Vote again?</a>#}
+
+
+
+{#{% if topic.user_has_already_voted %}#}
+{#Show vote results#}
+{#{% else %}#}
+{#Show vote form#}
+{#{% endif %}#}

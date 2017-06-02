@@ -1,7 +1,6 @@
 from django.conf.urls import url
 
 from . import views
-# from .views import HomePageView, TeamListView, EventListView, EventDetail, ProfileDetail, ResultDetail
 
 app_name = 'votingmachine'
 urlpatterns = [

@@ -9,7 +9,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Event, Team, Profile, Vote
+from .models import Event, Team, Vote
 from django.contrib.auth import get_user_model as user_model
 User = user_model()
 
@@ -45,7 +45,7 @@ class EventDetail(LoginRequiredMixin, DetailView):
 class ProfileDetail(LoginRequiredMixin, DetailView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
-    model = Profile
+    model = User
     template_name = 'votingmachine/profile.html'
     #use username instead of pk
     # slug_field = "username"

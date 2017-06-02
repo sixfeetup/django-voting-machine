@@ -32,23 +32,6 @@ class Event(models.Model):
         return self.title
 
 
-class Profile(models.Model):
-    STATUS_CHOICES = (
-        ('L', 'Leader'),
-        ('M', 'Member')
-    )
-    STATUSES = [t[0] for t in STATUS_CHOICES]
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='M')
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, related_name='events')
-
-    class Meta:
-        unique_together = ('event', 'user')
-
-    def __str__(self):
-        return ' %s Status= %s' % (self.user.username, self.status)
-
-
 class Vote(models.Model):
     VOTES_CHOICES = (
         (+1, '1'),
@@ -88,7 +71,7 @@ class Team(models.Model):
     title = models.CharField(max_length=256, unique=True, default='')
     description = models.CharField(max_length=2048, blank=True, default='')
     leader = models.OneToOneField(User)
-    members = models.ManyToManyField(Profile, verbose_name="list of members")
+    members = models.ManyToManyField(User, related_name='list_of_members')
 
     # count = models.PositiveIntegerField(default=0)
     # average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
@@ -113,7 +96,18 @@ class Team(models.Model):
         return " %s :  %s" % (self.title, self.description)
 
 
+class Profile(models.Model):
+    STATUS_CHOICES = (
+        ('L', 'Leader'),
+        ('M', 'Member')
+    )
+    STATUSES = [t[0] for t in STATUS_CHOICES]
+    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='M')
+    user = models.OneToOneField(User, on_delete=models.CASCADE)
+    event = models.ForeignKey(Event, related_name='events')
 
+    class Meta:
+        unique_together = ('event', 'user')
 
-
-
+    def __str__(self):
+        return ' %s Status= %s' % (self.user.username, self.status)

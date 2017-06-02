@@ -26,7 +26,7 @@ urlpatterns = [
         name='team_list'
     ),
     url(
-        regex=r'^profile/(?P<pk>[\w.@+-]+)/$$',
+        regex=r'^profile/(?P<pk>[\w.@+-]+)/$',
         view=views.ProfileDetail.as_view(),
         name='profile'
     ),

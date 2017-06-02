@@ -87,12 +87,11 @@ class Vote(models.Model):
 class Team(models.Model):
     title = models.CharField(max_length=256, unique=True, default='')
     description = models.CharField(max_length=2048, blank=True, default='')
-    leader = models.ForeignKey(Profile, default='Member', related_name='leaders')
+    leader = models.OneToOneField(User)
     members = models.ManyToManyField(Profile, verbose_name="list of members")
-    #votes = models.ForeignKey(Vote, default=0, related_name='vote')
 
-    # count = models.PositiveIntegerField(default=0)
-    # average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
+    count = models.PositiveIntegerField(default=0)
+    average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
 
     class Meta:
         ordering = ["title"]

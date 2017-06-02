@@ -90,8 +90,8 @@ class Team(models.Model):
     leader = models.OneToOneField(User)
     members = models.ManyToManyField(Profile, verbose_name="list of members")
 
-    count = models.PositiveIntegerField(default=0)
-    average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
+    # count = models.PositiveIntegerField(default=0)
+    # average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
 
     class Meta:
         ordering = ["title"]

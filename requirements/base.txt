@@ -43,12 +43,5 @@ pytz==2017.2
 django-redis==4.8.0
 redis>=2.10.5
 
-
-
-
-
 # Your custom requirements go here
-
-
-
-
+django-searchable-select

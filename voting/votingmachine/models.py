@@ -9,9 +9,9 @@ User = user_model()
 
 class Event(models.Model):
     WEIGHT_CHOICES = (
-        (+1, '1'),
-        (+2, '2'),
-        (+3, '3')
+        ('1', '1'),
+        ('2', '2'),
+        ('3', '3')
     )
     STATE_CHOICES = (
         ('S', 'Setup'),
@@ -23,7 +23,7 @@ class Event(models.Model):
     description = models.CharField(max_length=2048, default='')
     owner = models.ForeignKey(User, on_delete=models.CASCADE, default='')
     state = models.CharField(max_length=3, choices=STATE_CHOICES, default='S')
-    weighted = models.CharField(max_length=5, choices=WEIGHT_CHOICES, default='0')
+    weighted = models.CharField(max_length=5, choices=WEIGHT_CHOICES, default=0)
     created = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(null=True, default=timezone.now)
     end_date = models.DateField(null=True)
@@ -87,12 +87,12 @@ class Vote(models.Model):
 class Team(models.Model):
     title = models.CharField(max_length=256, unique=True, default='')
     description = models.CharField(max_length=2048, blank=True, default='')
-    leader = models.ForeignKey(Profile, default='Leader', related_name='leaders')
-    members = models.ForeignKey(User, default='Member', related_name='members')
+    leader = models.ForeignKey(Profile, default='Member', related_name='leaders')
+    members = models.ManyToManyField(Profile, verbose_name="list of members")
     votes = models.ForeignKey(Vote, default=0, related_name='vote')
 
-    count = models.PositiveIntegerField(default=0)
-    average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
+    # count = models.PositiveIntegerField(default=0)
+    # average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
 
     class Meta:
         ordering = ["title"]

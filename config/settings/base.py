@@ -41,7 +41,6 @@ THIRD_PARTY_APPS = [
     'searchableselect',
     #'registration', #django-registration-redux
     #'bootstrap3',
-    # 'debug_toolbar',
 ]
 
 # Apps specific for this project go here.
@@ -58,7 +57,6 @@ INSTALLED_APPS = DJANGO_APPS + THIRD_PARTY_APPS + LOCAL_APPS
 # MIDDLEWARE CONFIGURATION
 # ------------------------------------------------------------------------------
 MIDDLEWARE = [
-    'debug_toolbar.middleware.DebugToolbarMiddleware',
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',

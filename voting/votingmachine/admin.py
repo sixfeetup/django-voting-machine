@@ -2,7 +2,9 @@ from django.contrib import admin
 from django import forms
 from searchableselect.widgets import SearchableSelect
 
-from .models import Event, Team, Vote, Profile
+from .models import Event, Team, Value
+from django.contrib.auth import get_user_model as user_model
+User = user_model()
 
 
 class EventAdmin(admin.ModelAdmin):
@@ -16,8 +18,8 @@ class TeamForm(forms.ModelForm):
         model = Team
         exclude = ()
         widgets = {
-            'members': SearchableSelect(model='votingmachine.Profile',
-                                        search_field='User',
+            'members': SearchableSelect(model='users.User',
+                                        search_field='username',
                                         many='True', limit=100
                                         )
         }
@@ -30,19 +32,8 @@ class TeamAdmin(admin.ModelAdmin):
 admin.site.register(Team, TeamAdmin)
 
 
-class VoteAdmin(admin.ModelAdmin):
-    list_display = ['event', 'user', 'category', 'votes']
-    list_filter = ['event', 'user', 'category', 'votes']
+class ValueAdmin(admin.ModelAdmin):
+    list_display = ['event', 'team', 'user', 'category', 'votes']
+    list_filter = ['event', 'team', 'user', 'category', 'votes']
     ordering = ['event']
-admin.site.register(Vote, VoteAdmin)
-
-
-class ProfileAdmin(admin.ModelAdmin):
-    list_display = ['user', 'status']
-    list_filter = ['user', 'status']
-    fieldsets = [
-        (None, {'fields': ['user']}),
-        (None, {'fields': ['status']}),
-        ('Event', {'fields': ['event']}),
-    ]
-admin.site.register(Profile, ProfileAdmin)
+admin.site.register(Value, ValueAdmin)

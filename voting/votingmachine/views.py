@@ -9,7 +9,7 @@ from django.views.generic.base import TemplateView
 from django.views.generic.detail import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
-from .models import Event, Team, Vote
+from .models import Event, Team, Value
 from django.contrib.auth import get_user_model as user_model
 User = user_model()
 
@@ -55,10 +55,10 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
     #context_object_name = "user_profile"
 
 
-class VoteView(LoginRequiredMixin, TemplateView):
+class ValueView(LoginRequiredMixin, TemplateView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
-    model = Vote
+    model = Value
     template_name = 'votingmachine/voting_detail.html'
     select_related = 'user'
     context_vote_name = 'votes'
@@ -77,7 +77,7 @@ class VoteView(LoginRequiredMixin, TemplateView):
 class ResultView(LoginRequiredMixin, TemplateView):
     login_url = '/login/'
     redirect_field_name = 'redirect_to'
-    model = Vote
+    model = Value
     template_name = 'votingmachine/result.html'
 
     # def top_voted(self):

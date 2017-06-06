@@ -28,11 +28,17 @@ class Event(models.Model):
     start_date = models.DateTimeField(null=True, default=timezone.now)
     end_date = models.DateField(null=True)
 
+    def results(self):
+        teams = Team.objects.filter(event=self).order_by('?')
+        # sort them by team.get_score()
+        sorted_teams = sorted(teams, key=lambda team: team.get_score(), reverse=True)
+        return sorted_teams
+
     def __str__(self):
         return self.title
 
 
-class Vote(models.Model):
+class Value(models.Model):
     VOTES_CHOICES = (
         (+1, '1'),
         (+2, '2'),
@@ -47,12 +53,13 @@ class Vote(models.Model):
     category = models.CharField(max_length=1, choices=CATEGORY_CHOICES, default='')
     user = models.ForeignKey(User)
     event = models.ForeignKey(Event, default='')
+    team = models.ForeignKey('Team', null=True)
 
     class Meta:
-        unique_together = [('user', 'event', 'category')]
+        unique_together = [('user', 'event', 'category', 'team')]
 
     def user_already_voted(self, user):
-        if not Vote.objects.filter(event=self.id, user=user.id, category=self.id):
+        if not Value.objects.filter(event=self.id, user=user.id, category=self.id):
             return True
         else:
             return False
@@ -61,7 +68,7 @@ class Vote(models.Model):
              update_fields=None):
         if not self.id:
             self.date = timezone.now()
-        super(Vote, self).save(self, force_insert, force_update, using)
+        super(Value, self).save(self, force_insert, force_update, using)
 
     def __str__(self):
         return '%s votes %s' % (self.user, self.get_votes_display())
@@ -70,23 +77,29 @@ class Vote(models.Model):
 class Team(models.Model):
     title = models.CharField(max_length=256, unique=True, default='')
     description = models.CharField(max_length=2048, blank=True, default='')
-    leader = models.OneToOneField(User)
     members = models.ManyToManyField(User, related_name='list_of_members')
-
-    # count = models.PositiveIntegerField(default=0)
-    # average = models.DecimalField(max_digits=6, decimal_places=3, default=Decimal(0.0))
+    leader = models.OneToOneField(User)
+    event = models.ForeignKey(Event, default='')
 
     class Meta:
         ordering = ["title"]
 
-    def total_final(self):
-        return (self.average / Event.weighted) * 100
+    def get_votes(self, category):
+        return Value.objects.filter(event=self.event, category=category, team=self)
 
-    def avg_for_team(self):
-        for e in Event.objects.all():
-            for t in Team.objects.all():
-                vmt = sum(Team.votes.objects.all())/(sum(t.members()) * Event.weighted)
-                return vmt
+    def get_category_score(self, category):
+        cat_score = sum(self.get_votes(category).values_list('votes', flat=True))
+        return cat_score
+
+    def get_total_score(self):
+        tot_score = 0
+        for cat in Value.CATEGORY_CHOICES:
+            cat_score = self.get_category_score(cat[0])
+            tot_score += cat_score
+        return tot_score
+
+    def total_final_result(self):
+        return (self.get_total_score() / int(Event.weighted)) * 100
 
     @property
     def all_members(self, **kwargs):
@@ -94,20 +107,3 @@ class Team(models.Model):
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)
-
-
-class Profile(models.Model):
-    STATUS_CHOICES = (
-        ('L', 'Leader'),
-        ('M', 'Member')
-    )
-    STATUSES = [t[0] for t in STATUS_CHOICES]
-    status = models.CharField(max_length=1, choices=STATUS_CHOICES, default='M')
-    user = models.OneToOneField(User, on_delete=models.CASCADE)
-    event = models.ForeignKey(Event, related_name='events')
-
-    class Meta:
-        unique_together = ('event', 'user')
-
-    def __str__(self):
-        return ' %s Status= %s' % (self.user.username, self.status)

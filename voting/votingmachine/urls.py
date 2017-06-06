@@ -31,7 +31,7 @@ urlpatterns = [
     ),
     url(
         regex=r'^event/(?P<pk>[\w.@+-]+)/vote/$',
-        view=views.VoteView.as_view(),
+        view=views.ValueView.as_view(),
         name='vote'
     ),
     url(

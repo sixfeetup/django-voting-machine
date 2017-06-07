@@ -14,14 +14,14 @@ urlpatterns = [
 
     # User management
     url(r'^users/', include('voting.users.urls', namespace='users')),
-    url(r'^accounts/', include('allauth.urls')),
+#    url(r'^accounts/', include('allauth.urls')),
 
     # Your stuff: custom urls includes go here
 
     # VotingMachineApp management
     url(r'^votingmachine/', include('voting.votingmachine.urls', namespace='votingmachine')),
     url('^searchableselect/', include('searchableselect.urls')),
-    # url('^auth/', include('django.contrib.auth.urls', namespace='auth')),
+    url('^auth/', include('django.contrib.auth.urls', namespace='auth')),
     # url(r'^registration/', include('registration.backends.hmac.urls')),
     #(r'^accounts/', include('registration.backends.default.urls')), #redux
 

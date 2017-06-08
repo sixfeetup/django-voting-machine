@@ -20,7 +20,7 @@ urlpatterns = [
         name='event_detail'
     ),
     url(
-        regex=r'^event/(?P<pk>[\w.@+-]+)/team/$',
+        regex=r'^event/team/$',
         view=views.TeamListView.as_view(),
         name='team_list'
     ),

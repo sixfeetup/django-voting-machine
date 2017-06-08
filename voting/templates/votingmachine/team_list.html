@@ -14,10 +14,11 @@
     <ul>
         {% for team in object_list %}
             <li>{{ team.title }}</li>
+        {% empty %}
+            <li>No Teams yet.</li>
         {% endfor %}
     </ul>
 {% endblock %}
-
 
 
 {#<h1>Team</h1>#}

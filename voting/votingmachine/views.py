@@ -1,7 +1,6 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
-from django.db.models import Sum
 
 
 from django.views.generic.list import ListView
@@ -88,9 +87,3 @@ def search(request):
     events = Event.objects.filter(title__contains=request.GET['title'])
     return render(request, 'votingmachine/home.html', {"events": events})
 
-
-class ProofView(LoginRequiredMixin, ListView):
-    login_url = '/login/'
-    redirect_field_name = 'redirect_to'
-    model = Team
-    template_name = 'votingmachine/proof.html'

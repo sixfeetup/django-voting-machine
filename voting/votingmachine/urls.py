@@ -15,14 +15,15 @@ urlpatterns = [
         name='event_list'
     ),
     url(
-        regex=r'^event/(?P<pk>[\w.@+-]+)/$',
-        view=views.EventDetail.as_view(),
-        name='event_detail'
-    ),
-    url(
         regex=r'^event/team/$',
         view=views.TeamListView.as_view(),
         name='team_list'
+    ),
+
+    url(
+        regex=r'^event/(?P<pk>[\w.@+-]+)/$',
+        view=views.EventDetail.as_view(),
+        name='event_detail'
     ),
     url(
         regex=r'^profile/(?P<pk>[\w.@+-]+)/$',

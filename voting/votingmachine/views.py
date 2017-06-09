@@ -23,26 +23,22 @@ class HomePageView(TemplateView):
 
 
 class TeamListView(LoginRequiredMixin, ListView):
-    login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = Team
 
 
 class EventListView(LoginRequiredMixin, ListView):
-    login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = Event
 
 
 class EventDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = Event
     template_name = 'votingmachine/event_detail.html'
 
 
 class ProfileDetail(LoginRequiredMixin, DetailView):
-    login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = User
     template_name = 'votingmachine/profile.html'
@@ -55,7 +51,6 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
 
 
 class ValueView(LoginRequiredMixin, TemplateView):
-    login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = Value
     template_name = 'votingmachine/voting_detail.html'
@@ -74,7 +69,6 @@ class ValueView(LoginRequiredMixin, TemplateView):
 
 
 class ResultView(LoginRequiredMixin, TemplateView):
-    login_url = '/login/'
     redirect_field_name = 'redirect_to'
     model = Value
     template_name = 'votingmachine/result.html'

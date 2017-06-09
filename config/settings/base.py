@@ -8,6 +8,7 @@ For the full list of settings and their values, see
 https://docs.djangoproject.com/en/dev/ref/settings/
 """
 import environ
+from django.core.urlresolvers import reverse_lazy
 
 ROOT_DIR = environ.Path(__file__) - 3  # (voting/config/settings/base.py - 3 = voting/)
 APPS_DIR = ROOT_DIR.path('voting')
@@ -254,7 +255,7 @@ SOCIALACCOUNT_ADAPTER = 'voting.users.adapters.SocialAccountAdapter'
 # Select the correct user model
 AUTH_USER_MODEL = 'users.User'
 LOGIN_REDIRECT_URL = 'users:redirect'
-LOGIN_URL = 'account_login'
+LOGIN_URL = reverse_lazy('users:login')
 
 # SLUGLIFIER
 AUTOSLUG_SLUGIFY_FUNCTION = 'slugify.slugify'

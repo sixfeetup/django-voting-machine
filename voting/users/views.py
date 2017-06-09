@@ -14,6 +14,7 @@ from .forms import SignUpForm
 from .tokens import account_activation_token
 
 from .models import User#, Profile
+from voting.votingmachine.models import Event, Team
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -21,6 +22,10 @@ class UserDetailView(LoginRequiredMixin, DetailView):
     # These next two lines tell the view to index lookups by username
     slug_field = 'username'
     slug_url_kwarg = 'username'
+
+    def all_events(self):
+        return Event.objects.all()
+
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):

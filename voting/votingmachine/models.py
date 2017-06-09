@@ -84,6 +84,15 @@ class Team(models.Model):
     class Meta:
         ordering = ["title"]
 
+    @classmethod
+    def create(csl, title, description, members, leader, event):
+        team = csl(title=title, description=description, members=members, leader=leader, event=event)
+        return team
+
+    def create_team(self, title, description, members, leader, event):
+        team = self.create(title=title, description=description, members=members, leader=leader, event=event)
+        return team
+
     def get_votes(self, category):
         return Value.objects.filter(event=self.event, category=category, team=self)
 

@@ -32,27 +32,18 @@ urlpatterns = [
         name='logout'
     ),
     url(
+        regex=r'^create_team/$',
+        view=core_views.create_team,
+        name='create_team'
+    ),
+    url(
         regex=r'^(?P<username>[\w.@+-]+)/$',
         view=views.UserDetailView.as_view(),
         name='detail'
     ),
-    url(
-        regex=r'^~update/$',
-        view=views.UserUpdateView.as_view(),
-        name='update'
-    ),
     # url(
-    #     regex=r'^account_activation_sent/$',
-    #     view=core_views.account_activation_sent,
-    #     name='account_activation_sent'
+    #     regex=r'^~update/$',
+    #     view=views.UserUpdateView.as_view(),
+    #     name='update'
     # ),
-    # url(
-    #     regex=r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-    #     view=core_views.activate,
-    #     name='activate'
-    # ),
-    #
-    # url(r'^activate/(?P<uidb64>[0-9A-Za-z_\-]+)/(?P<token>[0-9A-Za-z]{1,13}-[0-9A-Za-z]{1,20})/$',
-    #     core_views.activate, name='activate'
-#    ),
 ]

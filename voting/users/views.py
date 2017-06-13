@@ -10,10 +10,10 @@ from django.utils.encoding import force_bytes, force_text
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.template.loader import render_to_string
 
-from .forms import SignUpForm
+from .forms import SignUpForm, CreateTeamForm
 from .tokens import account_activation_token
 
-from .models import User#, Profile
+from .models import User
 from voting.votingmachine.models import Event, Team
 
 
@@ -25,7 +25,6 @@ class UserDetailView(LoginRequiredMixin, DetailView):
 
     def all_events(self):
         return Event.objects.all()
-
 
 
 class UserRedirectView(LoginRequiredMixin, RedirectView):
@@ -67,16 +66,6 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = True
             user.save()
-            #current_site = get_current_site(request)
-            # subject = 'Activate Your MySite Account'
-            # message = render_to_string('users/account_activation_email.html', {
-            #     'user': user,
-            #     'domain': current_site.domain,
-            #     'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-            #     'token': account_activation_token.make_token(user),
-            # })
-            # user.email_user(subject, message)
-            #username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)
@@ -84,6 +73,18 @@ def signup(request):
     else:
         form = SignUpForm()
     return render(request, 'users/signup.html', {'form': form})
+
+
+def create_team(request):
+    if request.method == 'POST':
+        form1 = CreateTeamForm(request.POST)
+        if form1.is_valid():
+            new_team = form1.save()
+            return redirect('home')
+    else:
+        form1 = CreateTeamForm()
+        form1.initial = {'leader': request.user}
+    return render(request, 'users/user_create_team.html', {'form1': form1})
 
 
 def account_activation_sent(request):
@@ -124,4 +125,4 @@ def logout_view(request):
 #         else:
 #             return redirect('users:signup')
 #     else:
-#
+

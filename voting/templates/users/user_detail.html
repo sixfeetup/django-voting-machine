@@ -1,8 +1,6 @@
 {% extends "base.html" %}
 {% load static %}
 
-{#{% block title %}User: {{ object.username }}{% endblock %}#}
-
 {% block content %}
 <div class="container">
 
@@ -19,6 +17,7 @@
 
 {% if object == request.user %}
     {%  for u in user.obj %}
+    {% endfor %}
 
 {% endif %}
 
@@ -29,7 +28,7 @@
        <li>{{ event }}
             <ol>
             {% for team in event.team_set.all %}
-                <li>{{ team }}  {% if team in object.list_of_members.all %}<button class="btn btn-primary" type="submit">MEMBER</button>{% else %}<button class="btn btn-success" type="submit">JOIN</button>{% endif %}</li>
+                <li>{{ team }}  {% if request.user in team.members.all %}<button class="btn btn-primary" type="submit">LEAVE</button>{% else %}<button class="btn btn-success" type="submit">JOIN</button>{% endif %}</li>
             {%  endfor %}
             </ol>
        </li>

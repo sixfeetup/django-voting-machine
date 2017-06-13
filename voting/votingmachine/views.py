@@ -1,6 +1,8 @@
 from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
+from django.contrib.auth.decorators import login_required
+import json
 
 
 from django.views.generic.list import ListView
@@ -81,3 +83,61 @@ def search(request):
     events = Event.objects.filter(title__contains=request.GET['title'])
     return render(request, 'votingmachine/home.html', {"events": events})
 
+
+def add_user_to_team(user, team):
+    team = Team.objects.get(id=team.id)
+    team.members.add(user)
+    team.save()
+    return
+
+
+def remove_user_from_team(user, team):
+    group = Team.objects.get(id=team.id)
+    group.members.remove(user)
+    group.save()
+    return
+
+
+@login_required
+def join_team(request, team_id, action):
+    try:
+        user = request.user
+        team = Team.objects.get(id=team_id)
+        if action == 'join':
+            add_user_to_team(user, team)
+        elif action == 'leave':
+            remove_user_from_team(user, team)
+        else:
+            raise Exception( "unexpected action:" + action)
+        to_json = {
+            'status': "OK",
+        }
+    except Exception as e:
+        to_json = {'status': 'FAIL',  'message': 'Could not join team.', 'reason': str(e)}
+
+    return HttpResponse(json.dumps(to_json), content_type='application/json')
+
+
+
+
+
+
+# def add_user_to_team(user, team):
+#     group = Group.objects.get(id=team.id)
+#     group.user_set.add(user)
+#     group.save()
+#     return
+
+# def join_team(request, team_id):
+#     user = request.user
+#     team = Team.objects.get(id=team_id)
+#     if not team:
+#         return not_found()
+#     add_user_to_team(user, team)
+#     return HttpResponseRedirect('home')
+#
+# def remove_user_from_team(user, team):
+#     group = Team.objects.get(id=team.id)
+#     group.members.remove(user)
+#     group.save()
+#     return

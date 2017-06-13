@@ -9,9 +9,29 @@
         </div>
       </div>
     </div>
+    <div class="container">
     <ul>
-        {% for event in object_list %}
-            <li>{{ event.title }}</li>
+        {% for event in event_list %}
+            <li><h3>{{ event.title }} <button type="button" class="btn btn-link">Go</button></h3></li> <h3>{{ event.description }}</h3>
         {% endfor %}
     </ul>
+    </div>
 {% endblock %}
+
+
+# object_list
+#eventlist
+{#<button class="btn btn-primary" type="submit">LEAVE</button>{% else %}<button class="btn btn-success" type="submit">JOIN</button>#}
+
+
+# object_list
+#eventli
+{#{% for team in event.team_set.all %}#}
+{#<li>{{ team }}  {% if request.user in team.members.all %}<button class="btn btn-primary" type="submit">LEAVE</button>{% else %}<button class="btn btn-success" type="submit">JOIN</button>{% endif %}</li>#}
+{#{%  endfor %}#}
+
+
+{#  {% if 'Active' in event.state%}#}
+{# {% endif %}#}
+
+{#<li>{{ event}} {% if request.user in team.members.all %}<button type="button" class="btn btn-link">Go</button>{% else %}<button class="btn btn-success" type="submit">JOIN</button>{% endif %}</li> <h3>{{ event.description }}</h3>#}

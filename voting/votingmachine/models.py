@@ -21,7 +21,7 @@ class Event(models.Model):
     )
     title = models.CharField(max_length=256, unique=True, default='')
     description = models.CharField(max_length=2048, default='')
-    owner = models.ForeignKey(User, on_delete=models.CASCADE, default='')
+    owner = models.ForeignKey(User, on_delete=models.PROTECT, default='')
     state = models.CharField(max_length=3, choices=STATE_CHOICES, default='S')
     weighted = models.CharField(max_length=5, choices=WEIGHT_CHOICES, default=0)
     created = models.DateTimeField(auto_now_add=True)
@@ -35,7 +35,7 @@ class Event(models.Model):
         return sorted_teams
 
     def __str__(self):
-        return self.title
+        return " %s :  %s" % (self.title, self.description)
 
 
 class Value(models.Model):
@@ -51,9 +51,9 @@ class Value(models.Model):
     )
     votes = models.IntegerField(choices=VOTES_CHOICES, default=+1)
     category = models.CharField(max_length=1, choices=CATEGORY_CHOICES, default='')
-    user = models.ForeignKey(User)
-    event = models.ForeignKey(Event, default='')
-    team = models.ForeignKey('Team', null=True)
+    user = models.ForeignKey(User, on_delete=models.PROTECT)
+    event = models.ForeignKey(Event, default='', on_delete=models.PROTECT)
+    team = models.ForeignKey('Team', null=True, on_delete=models.PROTECT)
 
     class Meta:
         unique_together = [('user', 'event', 'category', 'team')]
@@ -77,22 +77,21 @@ class Value(models.Model):
 class Team(models.Model):
     title = models.CharField(max_length=256, unique=True, default='')
     description = models.CharField(max_length=2048, blank=True, default='')
-    members = models.ManyToManyField(User, related_name='list_of_members')
-    leader = models.OneToOneField(User)
-    event = models.ForeignKey(Event, default='')
+    members = models.ManyToManyField(User)
+    leader = models.ForeignKey(User, on_delete=models.PROTECT, related_name="leads")
+    event = models.ForeignKey(Event, on_delete=models.PROTECT)
 
     class Meta:
         ordering = ["title"]
 
     @classmethod
-    def create(csl, title, description, members, leader, event):
-        team = csl(title=title, description=description, members=members, leader=leader, event=event)
-        return team
-
-    def create_team(self, title, description, members, leader, event):
-        team = self.create(title=title, description=description, members=members, leader=leader, event=event)
-        return team
-
+    # def create(csl, title, description, members, leader, event):
+    #     team = csl(title=title, description=description, members=members, leader=leader, event=event)
+    #     return team
+    #
+    # def create_team(self, title, description, members, leader, event):
+    #     team = self.create(title=title, description=description, members=members, leader=leader, event=event)
+    #     return team
     def get_votes(self, category):
         return Value.objects.filter(event=self.event, category=category, team=self)
 

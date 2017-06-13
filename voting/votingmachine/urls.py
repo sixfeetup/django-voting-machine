@@ -19,7 +19,11 @@ urlpatterns = [
         view=views.TeamListView.as_view(),
         name='team_list'
     ),
-
+    url(
+        regex=r'^event/team/(?P<team_id>[\w.@+-]+)/(?P<action>(join|leave))/$',
+        view=views.join_team,
+        name='team_join'
+    ),
     url(
         regex=r'^event/(?P<pk>[\w.@+-]+)/$',
         view=views.EventDetail.as_view(),

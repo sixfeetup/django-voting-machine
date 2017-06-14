@@ -30,18 +30,19 @@ urlpatterns = [
         name='event_detail'
     ),
     url(
-        regex=r'^profile/(?P<pk>[\w.@+-]+)/$',
-        view=views.ProfileDetail.as_view(),
-        name='profile'
-    ),
-    url(
         regex=r'^event/(?P<pk>[\w.@+-]+)/vote/$',
         view=views.ValueView.as_view(),
-        name='vote'
+        name='vote_detail'
     ),
     url(
         regex=r'^event/(?P<pk>[\w.@+-]+)/result/$',
         view=views.ResultView.as_view(),
         name='result'
     ),
+    url(
+        regex=r'^profile/(?P<pk>[\w.@+-]+)/$',
+        view=views.ProfileDetail.as_view(),
+        name='profile'
+    ),
+
 ]

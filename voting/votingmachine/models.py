@@ -30,7 +30,6 @@ class Event(models.Model):
 
     def results(self):
         teams = Team.objects.filter(event=self).order_by('?')
-        # sort them by team.get_score()
         sorted_teams = sorted(teams, key=lambda team: team.get_score(), reverse=True)
         return sorted_teams
 
@@ -84,7 +83,7 @@ class Team(models.Model):
     class Meta:
         ordering = ["title"]
 
-    @classmethod
+    # @classmethod
     # def create(csl, title, description, members, leader, event):
     #     team = csl(title=title, description=description, members=members, leader=leader, event=event)
     #     return team

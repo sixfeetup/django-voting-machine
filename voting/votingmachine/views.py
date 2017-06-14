@@ -55,7 +55,7 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
 class ValueView(LoginRequiredMixin, TemplateView):
     redirect_field_name = 'redirect_to'
     model = Value
-    template_name = 'votingmachine/voting_detail.html'
+    template_name = 'votingmachine/vote_detail.html'
     select_related = 'user'
     context_vote_name = 'votes'
     template_name_suffix = '_voted_by'

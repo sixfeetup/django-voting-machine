@@ -13,7 +13,7 @@
     </div>
     <ul>
         {% for team in object_list %}
-            <li>{{ team.title }}</li>
+            <li><h3>{{ team.title }}</h3></li><h4>{{team.description}}</h4>
         {% empty %}
             <li>No Teams yet.</li>
         {% endfor %}
@@ -21,11 +21,3 @@
 {% endblock %}
 
 
-{#<h1>Team</h1>#}
-{#<ul>#}
-{#{% for team in object_list %}#}
-{#    <li>{{ team.pub_date|date }} - {{ team.headline }}</li>#}
-{#{% empty %}#}
-{#    <li>No teams yet.</li>#}
-{#{% endfor %}#}
-{#</ul>#}

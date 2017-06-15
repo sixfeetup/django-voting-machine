@@ -91,6 +91,7 @@ class Team(models.Model):
     # def create_team(self, title, description, members, leader, event):
     #     team = self.create(title=title, description=description, members=members, leader=leader, event=event)
     #     return team
+
     def get_votes(self, category):
         return Value.objects.filter(event=self.event, category=category, team=self)
 

@@ -1,85 +1,91 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
-
 {% block content %}
+<head>
+    <meta charset="utf-8">
+    <title>{{option_a}} vs {{option_b}}!</title>
+    <base href="/index.html">
+    <meta name = "viewport" content = "width=device-width, initial-scale = 1.0">
+    <meta name="keywords" content="docker-compose, docker, stack">
+    <meta name="author" content="Tutum dev team">
+    <link rel='stylesheet' href='{% static '/css/style.css' %}' />
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+</head>
 
-  <div class="row">
+    <div class="row">
     <div class="col-md-8">
       <div class="panel panel-default">
         <div class="panel-body">
-          <h3>{{ event.title }}</h3>
-          <hr/>
+            <div class="row">
+                <h2>Voting Machine Sixfeetup<p class="lead">It's time to start voting</p></h2>
+            </div>
         </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4>About {{ event.title }} </h4>
-        </div>
-        <div class="panel-body">
-          <p>{{ event.description }}</p>
-        </div>
-      </div>
-      <div class="panel panel-default">
-        <div class="panel-heading">
-          <h4>Event Information </h4>
-        </div>
-          <ul>
-              {% for team in event.team_set.all %}
-                  <li><h3>{{ team.title }}</h3></li><h4>{{team.description}}</h4>
-                  {% for member in team.members.all %}
-                      <h4>{{member}}</h4>
-                  {% endfor %}
-              {% empty %}
-                  <li>No Teams yet.</li>
-              {% endfor %}
-          </ul>
-
-        {% if show_post_event %}
-          <div class="panel-body">
-            <form method="POST">
-              {% csrf_token %}
-              <div class="form-group">
-                <textarea name="content" class="form-control"></textarea>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-sucess">Post</button>
-              </div>
-            </form>
-          </div>
-
-        {% endif %}
-
-        <ul class="list-group">
-
-        </ul>
       </div>
     </div>
-    <div class="col-md-4">
-      <div class="panel panel-defaul">
-        <div class="panel-body">
-          {% if user and not user.is_anonymous %}
-              <a href="/votingmachine/event/team/" class="btn btn-success btn-block">Vote Now</a>
-{#            <form method="POST" action="/votingmachine/event/team/">#}
-{#              {% csrf_token %}#}
-{#              <!-- form -->  {{  form.as_ul }} <!-- end form -->#}
-{#              <div id="payment-form"></div>#}
-{#              <input name="team_id" value="{{team.id }}" hidden>#}
-{#              <button type="submit" class="btn btn-success btn-block">Vote Now </button>#}
-{#            </form>#}
-
-          {% else %}
-            You need to login to see Event information!
-          {% endif %}
-        </div>
-
-      </div>
-      <div class="panel panel-default">
+    </div>
+    <div class="panel panel-default">
         <div class="panel-body">
           <img src="{{ team.user }}" class="img-circle center-block" height="100" width="100">
           <a href="{% url "users:detail" request.user.username %}"><h4 class="text-center">{{ request.user.username }}</h4></a>
-          <hr/>
         </div>
+    </div>
+<hr>
+  <div class="container">
+    <ul>{% for team in event.team_set.all %}
+            <li><h3>{{ team }}</h3>
+                {% for cat in cats %}
+                    <ol>{{cat.0}} - {{ cat.1 }}<form class="form-inline">
+                        <div class="btn-group" role="group" aria-label="Basic example">
+                        <button type="button" class="btn btn-primary" value="Input">1</button>
+                        <button type="button" class="btn btn-primary" value="Input">2</button>
+                        <button type="button" class="btn btn-primary" value="Input">3</button>
+                      </div>
+                      </form>
+                    </ol>
+                {% endfor %}
+       {% empty %}
+           <li>No Teams yet.</li>
+        {% endfor %}
+    </ul>
+   <div id="content-container">
+      <div id="content-container-center">
+        <h3>{{option_a}} vs {{option_b}} vs {{option_c}}!</h3>
+        <form id="choice" name='form' method="POST" action="/">
+          <button id=+1 type="submit" name="vote" class="1" value=+1>{{option_a}}</button>
+          <button id=+2 type="submit" name="vote" class="2" value=+2>{{option_b}}</button>
+          <button id=+3 type="submit" name="vote" class="3" value=+3>{{option_c}}</button>
+        </form>
       </div>
+    </div>
+    <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
+    <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
+
+    {% if vote %}
+    <script>
+      var vote = "{{value.votes}}";
+      if(vote == +1){
+        $(".a").prop('disabled', true);
+        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');
+        $(".b").css('opacity','1');
+      }
+      if(vote == +2){
+        $(".b").prop('disabled', true);
+        $(".b").html('{{option_b}} <i class="fa fa-check-circle"></i>');
+        $(".a").css('opacity','2');
+      }
+      if(vote == +3){
+        $(".a").prop('disabled', true);
+        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');
+        $(".b").css('opacity','3');
+      }
+    </script>
+    {% endif %}
+</div>
+
+
+
+{#<input type="hidden" class="rating" data-start="0" data-stop="3"/></li><h4>{{team.description}}</h4>#}
+
     </div>
   </div>
 

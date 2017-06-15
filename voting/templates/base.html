@@ -37,15 +37,15 @@
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'home' %}">Voting Machine</a>
+        <a class="navbar-brand" href="{% url 'votingmachine:home' %}">Voting Machine</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
             <li class="nav-item active">
               <a class="nav-link" href="{% url 'votingmachine:event_list'  %}">Events <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item">
-              <a class="nav-link" href="{% url 'votingmachine:vote_detail' event.id %}">"Vote"</a>
+            <li class="nav-item active">
+                <a class="nav-link" href="{% url 'votingmachine:team_list' %}">Teams</a>
             </li>
             {% if request.user.is_authenticated %}
               <li class="nav-item">
@@ -113,3 +113,9 @@
   </body>
 </html>
 
+
+{#{% for event in event_list %}                                                          #}
+{#<a class="nav-link" href="{% url 'votingmachine:vote_detail' event.id %}">"Vote"</a>   #}
+{#{% endfor %}                                                                           #}
+
+{#<a class="nav-link" href="{% url 'votingmachine:team_list' %}">Teams</a> #}

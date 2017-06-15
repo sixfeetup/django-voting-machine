@@ -28,3 +28,13 @@
 {#{% else %}#}
 {#Show vote form#}
 {#{% endif %}#}
+
+
+{#{% if winner %}#}
+{#    <div class="row">#}
+{#        <div class="col-md-9">#}
+{#            <h3>Winner:</h3>#}
+{#            <p>{{ winner.user.username }} ({{ winner.user.get_full_name }})</p>#}
+{#        </div>#}
+{#    </div>#}
+{#    {% endif %}#}

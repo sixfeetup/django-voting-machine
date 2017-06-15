@@ -1,39 +1,64 @@
 {% extends 'base.html' %}
 {% load staticfiles %}
 
-{% block page %}
 
-  <div class="row">
-    <div class="col-md-12">
-      <img src="{% static 'img/votinglogo.png' %}" class="banner">
-    </div>
+{% block content %}
 
-    {% for event in events %}
-      <div class="col-md-3">
-        <div class="thumbnail">
-          <ul>
-              {% for event in event_list %}
-                <li><a href="{% url 'votingmachine:event_detail' event.id %}">{{ event.event_text }}</a></li>
-              {% endfor %}
-          </ul>
+  <h2>Welcome, {{ user.get_username }}!</h2>
+  <p>Thanks for confirming your email address and for participating in this event!</p>
+  <h2>Information</h2>
 
-          <div class="caption">
-            <p><span>by <a href="{% url 'votingmachine:profile' event.user.username %}">{{ event.user.username }}</a></span></p>
-          </div>
-        </div>
-      </div>
-    {% endfor %}
-  </div>
+    <p><strong>Time:</strong> Wednesday, December 5th at 11:00am to Friday, December 7th at 5pm. A full 24 hours.</p>
+    {#{{ event.star_date }} to {{ event.end_date }}#}
+    <p><strong>Place:</strong> Shipitday will be held in Launch Fisher.</p>
+
+    <p><strong>Food:</strong> Yes. Lots of it.</p>
+
+    <p><strong>Prizes:</strong> A lot of fun!</p>
+
+
+  <h2>Rules</h2>
+
+    <h3>Rules of Participation</h3>
+    <p>The following are the rules to be eligible to win a special prize at Sixfeetup:</p>
+    <p><strong>1. </strong>All custom programming aspects must be done during the event. This does not apply to pre-existing libraries or third party software. In the event of any confusion, the judges will have the final say in the matter, and the staff may make suggestions.</p>
+    <p><strong>2. </strong>You will only be judged for work done during the event.</p>
+    <p><strong>3. </strong>The criteria to be evaluated are Useful, Awesome, Completion.</p>
+    <p><strong>4. </strong>Teams have not a maximum size..</p>
+    <p><strong>5. </strong>The winners can choose the organ.</p>
+    <p><strong>6. </strong>In the event that there are leftover special prizes, the judges can choose additional winners with suggestions from the staff.</p>
+    <p><strong>7. </strong>Raffle prizes will be given out at the end of each talk. You must attend the talk to be entered to win.  You're free to hack during the talk, just please be respectful and don't interrupt everyone!</p>
+    <center>
+        <p>Check out the <a href="https://notes.sixfeetup.com/p/ShipItDay">FAQ</a> for more information.</p>
+    </center>
+    <center><p>A special thanks to all of you who made this event possible!</p></center>
 
 {% endblock %}
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>
-        <script src="{% static 'js/bootstrap.min.js' %}"></script>
-
 
 {##}
-{#{% extends 'base.html' %}#}
+
+{#{% block body %}#}
+
+{#  <div class="row">#}
+{#    <div class="col-md-12">#}
+{#      <img src="{% static 'img/votinglogo.png' %}" class="banner">#}
+{#    </div>#}
+
+{#      <div class="col-md-3">#}
+{#        <div class="thumbnail">#}
+{#          <ul>#}
+{#              {% for event in event_list %}#}
+{#                <li><a href="{% url 'votingmachine:event_detail' event.id %}">{{ event.event_text }}</a></li>#}
+{#              {% endfor %}#}
+{#          </ul>#}
+{#          <div class="caption">#}
+{#            <p><span>by <a href="{% url 'votingmachine:profile' event.user.username %}">{{ event.user.username }}</a></span></p>#}
+{#          </div>#}
+{#        </div>#}
+{#      </div>#}
+{#  </div>#}
 {##}
-{#{% block content %}#}
-{#  <h2>Welcome, {{ user.get_full_name }} <small>{{ user.username }}</small>!</h2>#}
-{#  <p>Thanks for confirming your email address!</p>#}
 {#{% endblock %}#}
+{#        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>#}
+{#        <script src="{% static 'js/bootstrap.min.js' %}"></script>#}
+{##}

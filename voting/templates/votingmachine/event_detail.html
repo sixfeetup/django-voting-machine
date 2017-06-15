@@ -33,7 +33,6 @@
                   <li>No Teams yet.</li>
               {% endfor %}
           </ul>
-
         {% if show_post_event %}
           <div class="panel-body">
             <form method="POST">
@@ -46,19 +45,14 @@
               </div>
             </form>
           </div>
-
         {% endif %}
-
-        <ul class="list-group">
-
-        </ul>
       </div>
     </div>
     <div class="col-md-4">
       <div class="panel panel-default">
         <div class="panel-body">
           {% if user and not user.is_anonymous %}
-              <a href="/votingmachine/event/team/" class="btn btn-success btn-block">Vote Now</a>
+              <a href="{% url 'votingmachine:vote_detail' event.id %}" class="btn btn-success btn-block">Vote Now</a>
 {#            <form method="POST" action="/votingmachine/event/team/">#}
 {#              {% csrf_token %}#}
 {#              <!-- form -->  {{  form.as_ul }} <!-- end form -->#}
@@ -66,13 +60,12 @@
 {#              <input name="team_id" value="{{team.id }}" hidden>#}
 {#              <button type="submit" class="btn btn-success btn-block">Vote Now </button>#}
 {#            </form>#}
-
           {% else %}
             You need to login to see Event information!
           {% endif %}
         </div>
-
       </div>
+    </div>
       <div class="panel panel-default">
         <div class="panel-body">
           <img src="{{ team.user }}" class="img-circle center-block" height="100" width="100">
@@ -80,6 +73,7 @@
           <hr/>
         </div>
       </div>
+
     </div>
   </div>
 

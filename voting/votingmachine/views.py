@@ -18,11 +18,6 @@ User = user_model()
 class HomePageView(TemplateView):
     template_name = 'votingmachine/home.html'
 
-    # def get_context_data(self, **kwargs):
-    #     context = super(HomePageView, self).get_context_data(**kwargs)
-    #     context['events'] = Event.objects.all()
-    #     return context
-
 
 class TeamListView(LoginRequiredMixin, ListView):
     redirect_field_name = 'redirect_to'
@@ -68,6 +63,12 @@ class ValueView(LoginRequiredMixin, TemplateView):
         if self.select_related:
             queryset = queryset.select_related(self.select_related)
         return queryset
+
+@login_required
+def vote_page(request, pk):
+    event = Event.objects.get(id=pk)
+    cats = Value.CATEGORY_CHOICES
+    return render(request, 'votingmachine/vote_detail.html', {'event':event, 'cats':cats} )
 
 
 class ResultView(LoginRequiredMixin, TemplateView):
@@ -118,26 +119,33 @@ def join_team(request, team_id, action):
     return HttpResponse(json.dumps(to_json), content_type='application/json')
 
 
+def add_value_to_vote(votes, value):
+    result = Value.objects.get(id=value.id)
+    result.members.add(votes)
+    result.save()
+    return
+
+
+@login_required
+def value_add(request, value_id, event_id, team_id, action):
+    try:
+        user = request.user
+        event = Event.objects.get(id=event_id)
+        team = Team.objects.get(id=team_id)
+        votes = Value.VOTES_CHOICES
+        value = Value.objects.get(id=value_id)
+        category = Value.CATEGORY_CHOICES
+        if action == 'add':
+            add_value_to_vote(votes, value)
+        else:
+            raise Exception("unexpected action:" + action)
+        to_json = {
+            'status': "OK",
+        }
+    except Exception as e:
+        to_json = {'status': 'FAIL',  'message': 'Could not add the votes.', 'reason': str(e)}
+
+    return HttpResponse(json.dumps(to_json), content_type='application/json')
 
 
 
-
-# def add_user_to_team(user, team):
-#     group = Group.objects.get(id=team.id)
-#     group.user_set.add(user)
-#     group.save()
-#     return
-
-# def join_team(request, team_id):
-#     user = request.user
-#     team = Team.objects.get(id=team_id)
-#     if not team:
-#         return not_found()
-#     add_user_to_team(user, team)
-#     return HttpResponseRedirect('home')
-#
-# def remove_user_from_team(user, team):
-#     group = Team.objects.get(id=team.id)
-#     group.members.remove(user)
-#     group.save()
-#     return

@@ -28,37 +28,12 @@
     <p><strong>5. </strong>The winners can choose the organ.</p>
     <p><strong>6. </strong>In the event that there are leftover special prizes, the judges can choose additional winners with suggestions from the staff.</p>
     <p><strong>7. </strong>Raffle prizes will be given out at the end of each talk. You must attend the talk to be entered to win.  You're free to hack during the talk, just please be respectful and don't interrupt everyone!</p>
-    <center>
-        <p>Check out the <a href="https://notes.sixfeetup.com/p/ShipItDay">FAQ</a> for more information.</p>
-    </center>
-    <center><p>A special thanks to all of you who made this event possible!</p></center>
+
+    <p class="text-center">
+        Check out the <a href="https://notes.sixfeetup.com/p/ShipItDay">FAQ</a> for more information.
+    </p>
+    <p class="text-center">
+        A special thanks to all of you who made this event possible!
+    </p>
 
 {% endblock %}
-
-{##}
-
-{#{% block body %}#}
-
-{#  <div class="row">#}
-{#    <div class="col-md-12">#}
-{#      <img src="{% static 'img/votinglogo.png' %}" class="banner">#}
-{#    </div>#}
-
-{#      <div class="col-md-3">#}
-{#        <div class="thumbnail">#}
-{#          <ul>#}
-{#              {% for event in event_list %}#}
-{#                <li><a href="{% url 'votingmachine:event_detail' event.id %}">{{ event.event_text }}</a></li>#}
-{#              {% endfor %}#}
-{#          </ul>#}
-{#          <div class="caption">#}
-{#            <p><span>by <a href="{% url 'votingmachine:profile' event.user.username %}">{{ event.user.username }}</a></span></p>#}
-{#          </div>#}
-{#        </div>#}
-{#      </div>#}
-{#  </div>#}
-{##}
-{#{% endblock %}#}
-{#        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.0/jquery.min.js"></script>#}
-{#        <script src="{% static 'js/bootstrap.min.js' %}"></script>#}
-{##}

@@ -4,16 +4,14 @@
 {% block content %}
 
     <h1>Profile Detail: {{ object.username}}</h1>
-    <li>Status: {{ {% if Team.leader %}
+    <li>Status: {% if Team.leader %}
         <p>{{ Team.leader.pk }}</p>
       {% endif %} }}
     </li>
     <li>Event: {{ Event.pk }}</li>
     <li>description: {{ Team.description }}</li>
     <div class="col-sm-12">
-    <a class="btn btn-primary" href="{% url 'users:detail' user.username %}" role="button">Edit Account</a>
+        <a class="btn btn-primary" href="{% url 'users:detail' user.username %}" role="button">Edit Account</a>
     </div>
 
 {% endblock %}
-
-

@@ -23,16 +23,16 @@
         <div class="panel-heading">
           <h4>Event Information </h4>
         </div>
-          <ul>
-              {% for team in event.team_set.all %}
-                  <li><h3>{{ team.title }}</h3></li><h4>{{team.description}}</h4>
-                  {% for member in team.members.all %}
-                      <h4>{{member}}</h4>
-                  {% endfor %}
-              {% empty %}
-                  <li>No Teams yet.</li>
-              {% endfor %}
-          </ul>
+        <ul>
+            {% for team in event.team_set.all %}
+                <li><h3>{{ team.title }}</h3></li><h4>{{team.description}}</h4>
+                {% for member in team.members.all %}
+                    <h4>{{member}}</h4>
+                {% endfor %}
+            {% empty %}
+                <li>No Teams yet.</li>
+            {% endfor %}
+        </ul>
         {% if show_post_event %}
           <div class="panel-body">
             <form method="POST">
@@ -75,6 +75,5 @@
       </div>
 
     </div>
-  </div>
 
 {% endblock %}

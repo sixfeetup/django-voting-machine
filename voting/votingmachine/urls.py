@@ -35,9 +35,9 @@ urlpatterns = [
         name='vote_detail'
     ),
     url(
-        regex=r'^event/(?P<pk>[\w.@+-]+)/vote/(?P<action>(add))/$',
-        view=views.value_add,
-        name='value_add'
+        regex=r'^event/(?P<pk>[\w.@+-]+)/vote/collect/$',
+        view=views.collect_vote,
+        name='collect_vote'
     ),
     url(
         regex=r'^event/(?P<pk>[\w.@+-]+)/result/$',

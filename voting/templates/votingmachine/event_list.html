@@ -20,27 +20,5 @@
         {% endfor %}
     </ul>
     </div>
+    </div>
 {% endblock %}
-
-
-
-{## object_list#}
-{##eventli#}
-{#{% for team in event.team_set.all %}#}
-{#<li>{{ team }}  {% if request.user in team.members.all %}<button class="btn btn-primary" type="submit">LEAVE</button>{% else %}<button class="btn btn-success" type="submit">JOIN</button>{% endif %}</li>#}
-{#{%  endfor %}#}
-
-
-{#  {% if 'Active' in event.state%}#}
-{# {% endif %}#}
-
-{#<li>{{ event}} {% if request.user in team.members.all %}<button type="button" class="btn btn-link">Go</button>{% else %}<button class="btn btn-success" type="submit">JOIN</button>{% endif %}</li> <h3>{{ event.description }}</h3>#}
-{#<li><h3>{{ event.title }}{% url 'votingmachine:event_detail' event.id %}</h3></li>#}
-{# <a {% url'votingmachine:event_detail' event.id %} class="btn btn-info" role="button"#}
-{#{% url 'votingmachine:event_detail' event.id %}#}
-{#          {% if user and not user.is_anonymous %}#}
-{#              <a href="/votingmachine/event/team/" class="btn btn-success btn-block">Vote Now</a>#}
-
-{#          {% else %}#}
-{#            You need to login to see Event information!#}
-{#          {% endif %}#}

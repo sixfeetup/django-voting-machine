@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.http import require_POST
 import json
 
 
@@ -125,27 +126,23 @@ def add_value_to_vote(votes, value):
     result.save()
     return
 
-
+@require_POST
 @login_required
-def value_add(request, value_id, event_id, team_id, action):
-    try:
-        user = request.user
-        event = Event.objects.get(id=event_id)
-        team = Team.objects.get(id=team_id)
-        votes = Value.VOTES_CHOICES
-        value = Value.objects.get(id=value_id)
-        category = Value.CATEGORY_CHOICES
-        if action == 'add':
-            add_value_to_vote(votes, value)
-        else:
-            raise Exception("unexpected action:" + action)
-        to_json = {
-            'status': "OK",
-        }
-    except Exception as e:
-        to_json = {'status': 'FAIL',  'message': 'Could not add the votes.', 'reason': str(e)}
+def collect_vote(request, event_id):
+    u_id = request.user
+    t_id = request.POST.get['team_id']
+    cat = request.POST.get['category']
+    # value_id= int(request.POST.get('value'))
+    # votes= int(request.POST.get('Votes'))
+    # if votes not in (1,2,3):
+    #     score = 1
+    # vote = get_object_or_404(value, pk, value_id)
+    # score_diff = votes
+    vote, created = Value.objects.get_or_create(user__id=u_id, team__id=t_id, event__id=event_id, category=cat)
+    vote.votes = request.POST['vote']
+    vote.save()
 
-    return HttpResponse(json.dumps(to_json), content_type='application/json')
+    return redirect(vote)
 
 
 

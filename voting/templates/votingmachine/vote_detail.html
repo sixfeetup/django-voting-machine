@@ -36,9 +36,9 @@
                 {% for cat in cats %}
                     <ol>{{cat.0}} - {{ cat.1 }}<form class="form-inline">
                         <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary" value="Input">1</button>
-                        <button type="button" class="btn btn-primary" value="Input">2</button>
-                        <button type="button" class="btn btn-primary" value="Input">3</button>
+                        <button type="button" class="btn btn-primary" value="Input">1 vote({{ event.id }},{{ team.id }}, {{ cat.0 }}, 1 )</button>
+                        <button type="button" class="btn btn-primary" value="Input">2 vote({{ event.id }},{{ team.id }}, {{ cat.0 }}, 2 )</button>
+                        <button type="button" class="btn btn-primary" value="Input">3 vote({{ event.id }},{{ team.id }}, {{ cat.0 }}, 3 )</button>
                       </div>
                       </form>
                     </ol>

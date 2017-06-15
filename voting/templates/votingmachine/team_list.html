@@ -19,10 +19,10 @@
     <ul>
         {% for team in object_list %}
             <li><h3>{{ team.title }}</h3></li><h4>{{team.description}}</h4>
-            <ol><h4>Team Members</h4></ol>
+            <ol>Team Members</ol>
             <ol>
                 {% for member in team.members.all %}
-                    <ol><h5>{{member}}</h5></ol>
+                    <ol>{{member}}</ol>
                 {% endfor %}
             </ol>
         {% empty %}
@@ -30,19 +30,19 @@
         {% endfor %}
     </ul>
 
-    {% if show_post_event %}
-          <div class="panel-body">
-            <form method="POST">
-              {% csrf_token %}
-              <div class="form-group">
-                <textarea name="content" class="form-control"></textarea>
-              </div>
-              <div class="form-group">
-                <button type="submit" class="btn btn-success">Post</button>
-              </div>
-            </form>
-          </div>
-    {% endif %}
+{#    {% if show_post_event %}#}
+{#          <div class="panel-body">#}
+{#            <form method="POST">#}
+{#              {% csrf_token %}#}
+{#              <div class="form-group">#}
+{#                <textarea name="content" class="form-control"></textarea>#}
+{#              </div>#}
+{#              <div class="form-group">#}
+{#                <button type="submit" class="btn btn-success">Post</button>#}
+{#              </div>#}
+{#            </form>#}
+{#          </div>#}
+{#    {% endif %}#}
 
 {% endblock %}
 

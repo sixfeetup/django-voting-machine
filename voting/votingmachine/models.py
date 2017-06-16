@@ -28,9 +28,9 @@ class Event(models.Model):
     start_date = models.DateTimeField(null=True, default=timezone.now)
     end_date = models.DateField(null=True)
 
-    def results(self):
+    def winner(self):
         teams = Team.objects.filter(event=self).order_by('?')
-        sorted_teams = sorted(teams, key=lambda team: team.get_score(), reverse=True)
+        sorted_teams = sorted(teams, key=lambda team: team.get_total_score(), reverse=True)
         return sorted_teams
 
     def __str__(self):

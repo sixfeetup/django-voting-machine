@@ -59,34 +59,26 @@
     </div>
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
-
-    {% if vote %}
-    <script>
-      var vote = "{{value.votes}}";
-      if(vote == +1){
-        $(".a").prop('disabled', true);
-        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');
-        $(".b").css('opacity','1');
-      }
-      if(vote == +2){
-        $(".b").prop('disabled', true);
-        $(".b").html('{{option_b}} <i class="fa fa-check-circle"></i>');
-        $(".a").css('opacity','2');
-      }
-      if(vote == +3){
-        $(".a").prop('disabled', true);
-        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');
-        $(".b").css('opacity','3');
-      }
-    </script>
-    {% endif %}
-</div>
-
-
-
-{#<input type="hidden" class="rating" data-start="0" data-stop="3"/></li><h4>{{team.description}}</h4>#}
-
-    </div>
   </div>
+{#    {% if vote %}#}
+{#    <script>#}
+{#      var vote = "{{value.votes}}";#}
+{#      if(vote == +1){#}
+{#        $(".a").prop('disabled', true);#}
+{#        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');#}
+{#        $(".b").css('opacity','1');#}
+{#      }#}
+{#      if(vote == +2){#}
+{#        $(".b").prop('disabled', true);#}
+{#        $(".b").html('{{option_b}} <i class="fa fa-check-circle"></i>');#}
+{#        $(".a").css('opacity','2');#}
+{#      }#}
+{#      if(vote == +3){#}
+{#        $(".a").prop('disabled', true);#}
+{#        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');#}
+{#        $(".b").css('opacity','3');#}
+{#      }#}
+{#    </script>#}
+{#    {% endif %}#}
 
 {% endblock %}

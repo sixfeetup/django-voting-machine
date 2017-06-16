@@ -14,7 +14,7 @@ from .forms import SignUpForm, CreateTeamForm
 from .tokens import account_activation_token
 
 from .models import User
-from voting.votingmachine.models import Event, Team
+from voting.votingmachine.models import Event, Team, Value
 
 
 class UserDetailView(LoginRequiredMixin, DetailView):
@@ -113,4 +113,13 @@ def logout_view(request):
     return redirect('home')
 
 
+class ResultView(LoginRequiredMixin, DetailView):
+    model = Event
+    # These next two lines tell the view to index lookups by username
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+    template_name = 'votingmachine/result.html'
 
+    def all_results(self):
+        res = Event.results()
+        return res

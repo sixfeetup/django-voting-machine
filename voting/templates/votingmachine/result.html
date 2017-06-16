@@ -1,25 +1,27 @@
-<h1>{{ question.question_text }}</h1>
-
-{% if is_voted %}
-     Show vote results
-{% else %}
-     Show vote form
-{% endif %}
-
-<ul>
-{% for vote in value.choice_set.all %}
-    <li>{{ team.choice_text }} -- {{ choice.votes }} vote{{ choice.votes|pluralize }}</li>
-{% endfor %}
-</ul>
+{% extends 'base.html' %}
+{% load static %}
 
 
+{% block content %}
 
 
-{#{% if topic.user_has_already_voted %}#}
-{#Show vote results#}
-{#{% else %}#}
-{#Show vote form#}
-{#{% endif %}#}
+{% if winner %}
+    <div class="row">
+        <div class="col-md-9">
+            <h3>Winner:</h3>
+            <p>{{ winner.user.username }} ({{ winner.user.get_full_name }})</p>
+        </div>
+    </div>
+    {% endif %}
+{% endblock %}
+
+
+
+
+
+
+
+
 
 
 {#{% if winner %}#}

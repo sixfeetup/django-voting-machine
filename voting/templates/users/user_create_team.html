@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+
+{% block content %}
+  <h2>Create Team</h2>
+  <form method="post">
+    {% csrf_token %}
+   {% for field in form1 %}
+       <p>
+        {{ field.label_tag }}<br>
+        {{ field }}<br>
+        {% if field.help_text %}
+          <small style="color: #7a7c80">{{ field.help_text }}</small>
+        {% endif %}
+        {% for error in field.errors %}
+          <p style="color: #ff0e10">{{ error }}</p>
+        {% endfor %}
+       </p>
+    {% endfor %}
+    <button type="submit">Create Team</button>
+  </form>
+{% endblock %}
+

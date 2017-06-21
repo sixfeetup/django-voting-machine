@@ -1,8 +1,6 @@
-from django.http import HttpResponseRedirect, HttpResponse
-from django.shortcuts import get_object_or_404, render, redirect
-from django.urls import reverse
+from django.http import HttpResponse
+from django.shortcuts import render
 from django.contrib.auth.decorators import login_required
-from django.utils import timezone
 from django.views.decorators.http import require_POST
 import json
 
@@ -41,12 +39,6 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
     redirect_field_name = 'redirect_to'
     model = User
     template_name = 'votingmachine/profile.html'
-    #use username instead of pk
-    # slug_field = "username"
-    # slug_field = 'user'
-    # slug_url_kwarg = 'user'
-    # override the context user object from user to user_profile, use {{ user_profile }} instead of {{ Profile }} in template
-    #context_object_name = "user_profile"
 
 
 class ValueView(LoginRequiredMixin, TemplateView):
@@ -125,14 +117,16 @@ def collect_vote(request, pk):
     u_id = request.user.id
     t_id = request.POST['team_id']
     cat = request.POST['category']
-    value_id = request.POST['value']
-    vote = Value.objects.get_or_create(
+    value_id = int(request.POST['value'])
+    (vote, is_new) = Value.objects.get_or_create(
         user=User.objects.get(pk=u_id),
         team=Team.objects.get(pk=t_id),
         event=Event.objects.get(pk=pk),
-        category=cat)
-    vote[0].votes = value_id
-    vote[0].save()
+        category=cat,
+        defaults={'votes':value_id})
+    if not is_new:
+        vote.votes = value_id
+        vote.save()
 
     return HttpResponse("Success", content_type="text/plain")
 
@@ -143,10 +137,4 @@ class ResultView(LoginRequiredMixin, DetailView):
     slug_field = 'id'
     slug_url_kwarg = 'pk'
     template_name = 'votingmachine/result.html'
-
-
-    # def get_context_data(self, **kwargs):
-    #     context = super(ResultView, self).get_context_data(**kwargs)
-    #     context['now'] = timezone.now()
-    #     return context
 

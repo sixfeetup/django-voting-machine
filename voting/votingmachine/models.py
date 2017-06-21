@@ -2,8 +2,11 @@ from django.db import models
 from django.db.models import Avg, Count, Sum
 from decimal import Decimal
 from django.contrib.contenttypes.models import ContentType
-from django.utils import timezone
+
 from django.contrib.auth import get_user_model as user_model
+from django.utils.datetime_safe import datetime
+from pytz import UTC
+
 User = user_model()
 
 
@@ -25,13 +28,34 @@ class Event(models.Model):
     state = models.CharField(max_length=3, choices=STATE_CHOICES, default='S')
     weighted = models.CharField(max_length=5, choices=WEIGHT_CHOICES, default=0)
     created = models.DateTimeField(auto_now_add=True)
-    start_date = models.DateTimeField(null=True, default=timezone.now)
-    end_date = models.DateField(null=True)
+    start_date = models.DateTimeField(null=True, blank=True)
+    end_date = models.DateTimeField(null=True, blank=True)
 
     def winner(self):
         teams = self.team_set.all()
         sorted_teams = sorted(teams, key=lambda team: team.get_total_score(), reverse=True)
         return sorted_teams
+    #
+    # def is_open(self):
+    #     now = datetime.now()
+    #     if self.start_date < now < self.end_date:
+    #         return True
+    #
+    # def is_closed(self):
+    #     if not self.is_open():
+    #         return False
+
+    def status(self):
+
+        now = datetime.now(tz=UTC)
+       # import pdb; pdb.set_trace()
+
+        if self.start_date < now < self.end_date:
+            return 'Open'
+        elif self.end_date < now:
+            return 'closed'
+        elif self.start_date > now:
+            return 'Upcoming'
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)
@@ -63,14 +87,8 @@ class Value(models.Model):
         else:
             return False
 
-    # def save(self, force_insert=False, force_update=False, using=None,
-    #          update_fields=None):
-    #     if not self.id:
-    #         self.date = timezone.now()
-    #     super(Value, self).save(self, force_insert, force_update, using)
-
     def __str__(self):
-        return '%s votes %s' % (self.user, self.get_votes_display())
+        return '%s votes %s for %s %s' % (self.user, self.get_votes_display(), self.category, self.team)
 
 
 class Team(models.Model):
@@ -82,15 +100,6 @@ class Team(models.Model):
 
     class Meta:
         ordering = ["title"]
-
-    # @classmethod
-    # def create(csl, title, description, members, leader, event):
-    #     team = csl(title=title, description=description, members=members, leader=leader, event=event)
-    #     return team
-    #
-    # def create_team(self, title, description, members, leader, event):
-    #     team = self.create(title=title, description=description, members=members, leader=leader, event=event)
-    #     return team
 
     def count_members(self):
         return self.all_members.count()
@@ -110,14 +119,25 @@ class Team(models.Model):
         return tot_score
 
     def divscore_members(self):
-        return self.get_total_score()/ self.count_members()
+        return self.get_total_score() / self.count_members()
 
     def total_final_result(self):
-        return (self.get_total_score() /int(self.event.weighted)) * 100
+        return (self.get_total_score() / int(self.event.weighted)) * 100
 
     @property
-    def all_members(self, **kwargs):
+    def all_members(self):
         return self.members.order_by('id').all()
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)
+
+
+
+    # @classmethod
+    # def create(csl, title, description, members, leader, event):
+    #     team = csl(title=title, description=description, members=members, leader=leader, event=event)
+    #     return team
+    #
+    # def create_team(self, title, description, members, leader, event):
+    #     team = self.create(title=title, description=description, members=members, leader=leader, event=event)
+    #     return team

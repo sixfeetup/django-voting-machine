@@ -3,12 +3,9 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth import authenticate, login, logout
-from django.contrib.auth.decorators import login_required
-from django.contrib.sites.shortcuts import get_current_site
 from django.shortcuts import render, redirect
-from django.utils.encoding import force_bytes, force_text
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.template.loader import render_to_string
+from django.utils.encoding import force_text
+from django.utils.http import urlsafe_base64_decode
 
 from .forms import SignUpForm, CreateTeamForm
 from .tokens import account_activation_token
@@ -36,9 +33,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-
     fields = ['name', ]
-
     # we already imported User in the view code above, remember?
     model = User
 

@@ -12,8 +12,9 @@
                 <p>{{ event.description }}</p>
                 <a href="{% url 'votingmachine:event_detail' event.id %}" class="btn btn-info" role="button">Details</a>
                 <a href="{% url 'votingmachine:vote_detail' event.id %}" class="btn btn-info" role="button">Vote</a>
-            </div>
-            <hr>
+                <a href="{% url 'votingmachine:result' event.id %}" class="btn btn-info" role="button">Result of the Vote</a>
+            </h3></li>
+            <h4>{{ event.description }}</h4>
         {% endfor %}
     </div>
     </div>

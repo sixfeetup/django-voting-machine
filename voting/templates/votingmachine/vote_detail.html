@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load staticfiles %}
+{% load staticfiles voting_tags %}
 {% block content %}
 <head>
     <meta charset="utf-8">
@@ -13,52 +13,46 @@
 </head>
 
     <div class="row">
-    <div class="col-md-8">
-      <div class="panel panel-default">
-        <div class="panel-body">
-            <div class="row">
-                <h2>Voting Machine Sixfeetup<p class="lead">It's time to start voting</p></h2>
-            </div>
+        <div class="col-md-8">
+            <h2>Voting Machine Sixfeetup<p class="lead">It's time to start voting</p></h2>
         </div>
-      </div>
-    </div>
-    </div>
-    <div class="panel panel-default">
-        <div class="panel-body">
-          <img src="{{ team.user }}" class="img-circle center-block" height="100" width="100">
-          <a href="{% url "users:detail" request.user.username %}"><h4 class="text-center">{{ request.user.username }}</h4></a>
-        </div>
+        <div class="col-md-4">
+            {# <img src="{{ team.user }}" class="img-circle center-block" height="100" width="100"> #}
+            <a href="{% url "users:detail" request.user.username %}"><h4 class="text-center">{{ request.user.username }}</h4></a>
+          </div>
     </div>
 <hr>
   <div class="container">
-    <ul>{% for team in event.team_set.all %}
-            <li><h3>{{ team }}</h3>
+        {% for team in event.team_set.all %}
+            <div class="team-voting">
+                <h2>{{ team.title }}</h2>
+                <p>{{ team.description }}</p>
                 {% for cat in cats %}
-                    {{cat.0}} - {{ cat.1 }}
                     <form class="form-inline">
-                        <div class="input-group">
-                          <span class="input-group-addon">
-                            <input type="radio" name="{{ cat.1 }}-vote"
-                                   data-value="1" data-team="{{ team.id }}" data-cat="{{cat.0}}">
-                            <i class="fa fa-star-o"></i>
-                          </span>
-                          <span class="input-group-addon">
-                            <input type="radio" name="{{ cat.1 }}-vote"
-                                   data-value="2" data-team="{{ team.id }}" data-cat="{{cat.0}}">
-                            <i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-                          </span>
-                          <span class="input-group-addon">
-                            <input type="radio" name="{{ cat.1 }}-vote"
-                                   data-value="3" data-team="{{ team.id }}" data-cat="{{cat.0}}">
-                            <i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
-                          </span>
+                        <label>{{ cat.1 }}</label>
+                        <div class="btn-group" role="group">
+                            <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 1 %}"
+                                    name="{{ cat.1 }}-vote"
+                                    data-value="1" data-team="{{ team.id }}" data-cat="{{cat.0}}">
+                                   <i class="fa fa-star"></i>
+                            </button>
+                            <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 2 %}"
+                                    name="{{ cat.1 }}-vote"
+                                    data-value="2" data-team="{{ team.id }}" data-cat="{{cat.0}}">
+                                   <i class="fa fa-star"></i><i class="fa fa-star"></i>
+                            </button>
+                            <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 3 %}"
+                                    name="{{ cat.1 }}-vote"
+                                    data-value="3" data-team="{{ team.id }}" data-cat="{{cat.0}}">
+                                   <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+                            </button>
                         </div>
                      </form>
                 {% endfor %}
+            </div>
        {% empty %}
-           <li>No Teams yet.</li>
+           <div>No Teams yet.</div>
         {% endfor %}
-    </ul>
    <div id="content-container">
       <div id="content-container-center">
         <h3>{{option_a}} vs {{option_b}} vs {{option_c}}!</h3>
@@ -77,7 +71,9 @@
     
     
     (function($) { $(function() {
-        $('input[type="radio"]').change(function(){
+        $('button').click(function(){
+            $(this).parents(".btn-group").find(".btn").removeClass("btn-primary").addClass("btn-secondary");
+            $(this).removeClass("btn-secondary").addClass("btn-primary");
             var vdata = {
                 team_id: $(this).attr("data-team"),
                 category: $(this).attr("data-cat"),

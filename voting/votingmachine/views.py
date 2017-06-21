@@ -120,21 +120,19 @@ def add_value_to_vote(votes, value):
 
 @require_POST
 @login_required
-def collect_vote(request, event_id):
-    u_id = request.user
-    t_id = request.POST.get['team_id']
-    cat = request.POST.get['category']
-    # value_id= int(request.POST.get('value'))
-    # votes= int(request.POST.get('Votes'))
-    # if votes not in (1,2,3):
-    #     score = 1
-    # vote = get_object_or_404(value, pk, value_id)
-    # score_diff = votes
-    vote, created = Value.objects.get_or_create(user__id=u_id, team__id=t_id, event__id=event_id, category=cat)
-    vote.votes = request.POST['vote']
-    vote.save()
+def collect_vote(request, pk):
+    u_id = request.user.id
+    t_id = request.POST['team_id']
+    cat = request.POST['category']
+    value_id = request.POST['value']
+    vote = Value.objects.get_or_create(
+        user=User.objects.get(pk=u_id),
+        team=Team.objects.get(pk=t_id),
+        event=Event.objects.get(pk=pk),
+        category=cat,
+        votes=value_id)
 
-    return redirect(vote)
+    return HttpResponse("Success", content_type="text/plain")
 
 
 class ResultView(LoginRequiredMixin, DetailView):

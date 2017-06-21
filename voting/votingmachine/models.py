@@ -63,11 +63,11 @@ class Value(models.Model):
         else:
             return False
 
-    def save(self, force_insert=False, force_update=False, using=None,
-             update_fields=None):
-        if not self.id:
-            self.date = timezone.now()
-        super(Value, self).save(self, force_insert, force_update, using)
+    # def save(self, force_insert=False, force_update=False, using=None,
+    #          update_fields=None):
+    #     if not self.id:
+    #         self.date = timezone.now()
+    #     super(Value, self).save(self, force_insert, force_update, using)
 
     def __str__(self):
         return '%s votes %s' % (self.user, self.get_votes_display())

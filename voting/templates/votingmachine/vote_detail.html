@@ -34,14 +34,26 @@
     <ul>{% for team in event.team_set.all %}
             <li><h3>{{ team }}</h3>
                 {% for cat in cats %}
-                    <ol>{{cat.0}} - {{ cat.1 }}<form class="form-inline">
-                        <div class="btn-group" role="group" aria-label="Basic example">
-                        <button type="button" class="btn btn-primary" value="Input">1 vote({{ event.id }},{{ team.id }}, {{ cat.0 }}, 1 )</button>
-                        <button type="button" class="btn btn-primary" value="Input">2 vote({{ event.id }},{{ team.id }}, {{ cat.0 }}, 2 )</button>
-                        <button type="button" class="btn btn-primary" value="Input">3 vote({{ event.id }},{{ team.id }}, {{ cat.0 }}, 3 )</button>
-                      </div>
-                      </form>
-                    </ol>
+                    {{cat.0}} - {{ cat.1 }}
+                    <form class="form-inline">
+                        <div class="input-group">
+                          <span class="input-group-addon">
+                            <input type="radio" name="{{ cat.1 }}-vote"
+                                   data-value="1" data-team="{{ team.id }}" data-cat="{{cat.0}}">
+                            <i class="fa fa-star-o"></i>
+                          </span>
+                          <span class="input-group-addon">
+                            <input type="radio" name="{{ cat.1 }}-vote"
+                                   data-value="2" data-team="{{ team.id }}" data-cat="{{cat.0}}">
+                            <i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
+                          </span>
+                          <span class="input-group-addon">
+                            <input type="radio" name="{{ cat.1 }}-vote"
+                                   data-value="3" data-team="{{ team.id }}" data-cat="{{cat.0}}">
+                            <i class="fa fa-star-o"></i><i class="fa fa-star-o"></i><i class="fa fa-star-o"></i>
+                          </span>
+                        </div>
+                     </form>
                 {% endfor %}
        {% empty %}
            <li>No Teams yet.</li>
@@ -60,25 +72,21 @@
     <script src="http://code.jquery.com/jquery-latest.min.js" type="text/javascript"></script>
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   </div>
-{#    {% if vote %}#}
-{#    <script>#}
-{#      var vote = "{{value.votes}}";#}
-{#      if(vote == +1){#}
-{#        $(".a").prop('disabled', true);#}
-{#        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');#}
-{#        $(".b").css('opacity','1');#}
-{#      }#}
-{#      if(vote == +2){#}
-{#        $(".b").prop('disabled', true);#}
-{#        $(".b").html('{{option_b}} <i class="fa fa-check-circle"></i>');#}
-{#        $(".a").css('opacity','2');#}
-{#      }#}
-{#      if(vote == +3){#}
-{#        $(".a").prop('disabled', true);#}
-{#        $(".a").html('{{option_a}} <i class="fa fa-check-circle"></i>');#}
-{#        $(".b").css('opacity','3');#}
-{#      }#}
-{#    </script>#}
-{#    {% endif %}#}
+
+    <script>
+    
+    
+    (function($) { $(function() {
+        $('input[type="radio"]').change(function(){
+            var vdata = {
+                team_id: $(this).attr("data-team"),
+                category: $(this).attr("data-cat"),
+                value: $(this).attr("data-value"),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+             $.post('{{ request.path }}collect/?', vdata)
+         })
+    }); })(jQuery);
+    </script>
 
 {% endblock %}

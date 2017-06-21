@@ -35,7 +35,7 @@ urlpatterns = [
         name='vote_detail'
     ),
     url(
-        regex=r'^event/(?P<pk>[\w.@+-]+)/vote/collect/$',
+        regex=r'^event/(?P<pk>[\w.@+-]+)/vote/collect',
         view=views.collect_vote,
         name='collect_vote'
     ),

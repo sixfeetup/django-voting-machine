@@ -2,6 +2,7 @@ from django.http import HttpResponseRedirect, HttpResponse
 from django.shortcuts import get_object_or_404, render, redirect
 from django.urls import reverse
 from django.contrib.auth.decorators import login_required
+from django.utils import timezone
 from django.views.decorators.http import require_POST
 import json
 
@@ -72,15 +73,6 @@ def vote_page(request, pk):
     return render(request, 'votingmachine/vote_detail.html', {'event':event, 'cats':cats} )
 
 
-class ResultView(LoginRequiredMixin, TemplateView):
-    redirect_field_name = 'redirect_to'
-    model = Value
-    template_name = 'votingmachine/result.html'
-
-    # def top_voted(self):
-    #     return self(score=Sum('votes')).order_by('score')
-
-
 def search(request):
     events = Event.objects.filter(title__contains=request.GET['title'])
     return render(request, 'votingmachine/home.html', {"events": events})
@@ -145,4 +137,16 @@ def collect_vote(request, event_id):
     return redirect(vote)
 
 
+class ResultView(LoginRequiredMixin, DetailView):
+    model = Event
+    # These next two lines tell the view to index lookups by username
+    slug_field = 'id'
+    slug_url_kwarg = 'pk'
+    template_name = 'votingmachine/result.html'
+
+
+    # def get_context_data(self, **kwargs):
+    #     context = super(ResultView, self).get_context_data(**kwargs)
+    #     context['now'] = timezone.now()
+    #     return context
 

@@ -4,31 +4,23 @@
 
 {% block content %}
 
-
-{% if winner %}
-    <div class="row">
-        <div class="col-md-9">
-            <h3>Winner:</h3>
-            <p>{{ winner.user.username }} ({{ winner.user.get_full_name }})</p>
-        </div>
-    </div>
+    {% if event %}
+    {%  for team in event.winner %}
+            <div class="row">
+                <div class="col-md-9">
+                    <h3>Winner:</h3>
+                    <p>{{ team}} </p>
+                    <h6>Get Category Score: {{ team.get_category_score }}</h6>
+                    <h6>Team members #:{{ team.count_members }}</h6>
+                    <h6>Get Total Score: {{ team.get_total_score }}</h6>
+                    <h6>Division: {{ team.divscore_members }}</h6>
+                    <h6>Final Result: {{ team.total_final_result }}</h6>
+                </div>
+            </div>
+        {% endfor %}
     {% endif %}
 {% endblock %}
 
 
 
 
-
-
-
-
-
-
-{#{% if winner %}#}
-{#    <div class="row">#}
-{#        <div class="col-md-9">#}
-{#            <h3>Winner:</h3>#}
-{#            <p>{{ winner.user.username }} ({{ winner.user.get_full_name }})</p>#}
-{#        </div>#}
-{#    </div>#}
-{#    {% endif %}#}

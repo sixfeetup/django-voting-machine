@@ -113,13 +113,3 @@ def logout_view(request):
     return redirect('home')
 
 
-class ResultView(LoginRequiredMixin, DetailView):
-    model = Event
-    # These next two lines tell the view to index lookups by username
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
-    template_name = 'votingmachine/result.html'
-
-    def all_results(self):
-        res = Event.results()
-        return res

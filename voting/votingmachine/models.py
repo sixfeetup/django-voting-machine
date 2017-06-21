@@ -29,7 +29,7 @@ class Event(models.Model):
     end_date = models.DateField(null=True)
 
     def winner(self):
-        teams = Team.objects.filter(event=self).order_by('?')
+        teams = self.team_set.all()
         sorted_teams = sorted(teams, key=lambda team: team.get_total_score(), reverse=True)
         return sorted_teams
 
@@ -92,6 +92,9 @@ class Team(models.Model):
     #     team = self.create(title=title, description=description, members=members, leader=leader, event=event)
     #     return team
 
+    def count_members(self):
+        return self.all_members.count()
+
     def get_votes(self, category):
         return Value.objects.filter(event=self.event, category=category, team=self)
 
@@ -106,8 +109,11 @@ class Team(models.Model):
             tot_score += cat_score
         return tot_score
 
+    def divscore_members(self):
+        return self.get_total_score()/ self.count_members()
+
     def total_final_result(self):
-        return (self.get_total_score() / int(Event.weighted)) * 100
+        return (self.get_total_score() /int(self.event.weighted)) * 100
 
     @property
     def all_members(self, **kwargs):

@@ -3,32 +3,27 @@
 
 {% block content %}
     <div class="row">
-    <div class="col-md-8">
-      <div class="panel panel-default">
-        <div class="panel-body">
+    <div class="col-md-12">
             <h2>Teams</h2>
             {% if user and not user.is_anonymous %}
-              <a href="{% url 'users:create_team'%}" class="btn btn-success btn-block">Create Team</a>
+              <a href="{% url 'users:create_team'%}" class="btn btn-success pull-right">Create Team</a>
           {% else %}
             You need to login to see Event information!
           {% endif %}
-        </div>
-      </div>
     </div>
     </div>
-    <ul>
         {% for team in object_list %}
-            <li><h3>{{ team.title }}</h3></li><h4>{{team.description}}</h4>
-            <ol>Team Members</ol>
+            <h3>{{ team.title }}</h3>
+            <p>{{team.description}}</p>
             <ol>
                 {% for member in team.members.all %}
-                    <ol>{{member}}</ol>
+                    <li>{{member}}</li>
                 {% endfor %}
             </ol>
+            <hr>
         {% empty %}
-            <li>No Teams yet.</li>
+            <p>No Teams yet.</p>
         {% endfor %}
-    </ul>
 
 {#    {% if show_post_event %}#}
 {#          <div class="panel-body">#}

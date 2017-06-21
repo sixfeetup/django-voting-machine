@@ -12,10 +12,6 @@ html,body{
   font-size: 16px;
 }
 
-button[type="submit"] {
-  -webkit-appearance:none; -webkit-border-radius:0;
-}
-
 button i{
   float: right;
   padding-right: 30px;
@@ -32,6 +28,11 @@ button.b{
 
 button.c{
   background-color: #0000dd;
+}
+
+.err-msg {
+    padding-left: 10px;
+    color: #ff0000;
 }
 
 #tip{

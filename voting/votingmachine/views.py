@@ -102,7 +102,7 @@ def join_team(request, team_id, action):
         elif action == 'leave':
             remove_user_from_team(user, team)
         else:
-            raise Exception( "unexpected action:" + action)
+            raise Exception("unexpected action:" + action)
         to_json = {
             'status': "OK",
         }
@@ -117,6 +117,7 @@ def add_value_to_vote(votes, value):
     result.members.add(votes)
     result.save()
     return
+
 
 @require_POST
 @login_required

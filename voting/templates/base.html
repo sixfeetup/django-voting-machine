@@ -25,19 +25,22 @@
     <script src="{% static 'js/bootstrap.min.js' %}"></script>
     <!-- This file stores project-specific CSS -->
     <link href="{% static 'css/project.css' %}" rel="stylesheet">
+    <link rel='stylesheet' href='{% static "/css/style.css" %}' />
 
     {% endblock %}
 
     </head>
 
   <body>
+    <div class="container">
     <div class="m-b-1">
-      <img src="{% static "images/votinglogo.png" %}" height="70" />
+      <a href="{% url 'votingmachine:home' %}">
+          <img src="{% static 'images/votinglogo.png' %}" height="70" />
+      </a>
       <nav class="navbar navbar-toggleable-md navbar-light bg-faded">
         <button class="navbar-toggler navbar-toggler-right" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
           <span class="navbar-toggler-icon"></span>
         </button>
-        <a class="navbar-brand" href="{% url 'votingmachine:home' %}">Voting Machine</a>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav mr-auto">
@@ -70,6 +73,7 @@
         </div>
       </nav>
 
+    </div>
     </div>
 
     <div class="container">
@@ -105,11 +109,11 @@
 
 
     {% endblock javascript %}
-   <footer id="footer">
-      <div class="container">
-        <span>Voting Machine &copy; 2017</span>
-      </div>
-   </footer>
+    <div class="container">
+      <footer id="footer">
+        <p>Voting Machine &copy; 2017</p>
+      </footer>
+  </div>
   </body>
 </html>
 

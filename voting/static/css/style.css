@@ -11,6 +11,15 @@ html,body{
   font-family: 'Open Sans';
   font-size: 16px;
 }
+body > .container {
+    background-color: #ffffff;
+}
+nav.navbar {
+    clear: both;
+}
+footer {
+    padding-bottom: 100px;
+}
 
 button i{
   float: right;

@@ -13,7 +13,7 @@
     <ul>
         {% for event in event_list %}
             <li class="nav-item"><h3>{{ event.title }}
-                <a href="{% url "votingmachine:event_detail" event.id %}" class="btn btn-info" role="button">Go</a>
+                <a href="{% url 'votingmachine:event_detail' event.id %}" class="btn btn-info" role="button">Details</a>
                 <a href="{% url 'votingmachine:vote_detail' event.id %}" class="btn btn-info" role="button">Vote</a>
             </h3></li>
             <h4>{{ event.description }}</h4>

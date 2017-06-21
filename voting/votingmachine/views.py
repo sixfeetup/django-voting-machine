@@ -130,8 +130,9 @@ def collect_vote(request, pk):
         user=User.objects.get(pk=u_id),
         team=Team.objects.get(pk=t_id),
         event=Event.objects.get(pk=pk),
-        category=cat,
-        votes=value_id)
+        category=cat)
+    vote[0].votes = value_id
+    vote[0].save()
 
     return HttpResponse("Success", content_type="text/plain")
 

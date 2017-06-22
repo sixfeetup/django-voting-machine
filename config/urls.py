@@ -6,7 +6,7 @@ from django.views.generic import TemplateView
 from django.views import defaults as default_views
 
 urlpatterns = [
-    url(r'^$', TemplateView.as_view(template_name='pages/home.html'), name='home'),
+    url(r'^$', TemplateView.as_view(template_name='votingmachine/home.html'), name='home'),
     url(r'^about/$', TemplateView.as_view(template_name='pages/about.html'), name='about'),
 
     # Django Admin, use {% url 'admin:index' %}
@@ -14,7 +14,7 @@ urlpatterns = [
 
     # User management
     url(r'^users/', include('voting.users.urls', namespace='users')),
-#    url(r'^accounts/', include('allauth.urls')),
+
 
     # Your stuff: custom urls includes go here
 
@@ -22,8 +22,6 @@ urlpatterns = [
     url(r'^votingmachine/', include('voting.votingmachine.urls', namespace='votingmachine')),
     url('^searchableselect/', include('searchableselect.urls')),
     url('^auth/', include('django.contrib.auth.urls', namespace='auth')),
-    # url(r'^registration/', include('registration.backends.hmac.urls')),
-    #(r'^accounts/', include('registration.backends.default.urls')), #redux
 
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

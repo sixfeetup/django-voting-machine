@@ -111,19 +111,6 @@ def add_value_to_vote(votes, value):
     return
 
 
-
-
-from django.core.exceptions import PermissionDenied
-
-
-def get(self, request, *args, **kwargs):
-    team_id = self.kwargs.get('team_id')
-    team = Team.objects.get(pk=team_id)
-    if team_id == team:
-        raise PermissionDenied
-    else:
-        return super(collect_vote, self).get(request, *args, **kwargs)
-
 @require_POST
 @login_required
 def collect_vote(request, pk):

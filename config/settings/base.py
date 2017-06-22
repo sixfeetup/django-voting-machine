@@ -269,7 +269,6 @@ ADMIN_URL = r'^admin/'
 
 
 ACCOUNT_ACTIVATION_DAYS = 2
-#REGISTRATION_OPEN = True
 REGISTRATION_AUTO_LOGIN = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_USE_TLS = True

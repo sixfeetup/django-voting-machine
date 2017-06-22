@@ -1,14 +1,13 @@
 from django.conf.urls import url
 
 from . import views
-from . import views as core_views
 from django.contrib.auth import views as auth_views
 
 urlpatterns = [
     url(
         regex=r'^$',
         view=views.UserListView.as_view(),
-        name='list'
+        name='home'
     ),
     url(
         regex=r'^~redirect/$',
@@ -17,7 +16,7 @@ urlpatterns = [
     ),
     url(
         regex=r'^signup/$',
-        view=core_views.signup,
+        view=views.signup,
         name='signup'
     ),
     url(
@@ -27,13 +26,14 @@ urlpatterns = [
         name='login'
     ),
     url(
-        regex=r'^logout/$',
-        view=core_views.logout_view,
+        r'^logout/$',
+        auth_views.logout,
+        {'template_name':'users/logout.html'},
         name='logout'
     ),
     url(
         regex=r'^create_team/$',
-        view=core_views.create_team,
+        view=views.create_team,
         name='create_team'
     ),
     url(

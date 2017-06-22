@@ -3,9 +3,11 @@ from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
+from django.views.generic.base import TemplateView
 
 from .forms import SignUpForm, CreateTeamForm
 from .tokens import account_activation_token
@@ -47,12 +49,11 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         return User.objects.get(username=self.request.user.username)
 
 
-class UserListView(LoginRequiredMixin, ListView):
-    model = User
-    # These next two lines tell the view to index lookups by username
-    slug_field = 'username'
-    slug_url_kwarg = 'username'
+class UserListView(TemplateView):
+    template_name = 'votingmachine/home.html'
 
+# class HomePageView(TemplateView):
+#     template_name = 'votingmachine/home.html'
 
 def signup(request):
     if request.method == 'POST':
@@ -69,7 +70,7 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'users/signup.html', {'form': form})
 
-
+@login_required
 def create_team(request):
     if request.method == 'POST':
         form1 = CreateTeamForm(request.POST)

@@ -4,14 +4,14 @@
 
 {% block content %}
     {% if event %}
+    {% if event.status == "open" %}
+        <h3>This is the  {{ event}}.</h3>
+        <h5>This event is {{ event.status }}, it started at {{ event.start_date }} and ended at {{ event.end_date }}.</h5>
+         <h5> Please Vote Now.</h5>
+        <a href="{% url 'votingmachine:vote_detail' event.id %}" class="btn btn-info">Vote Now</a>
 
-        {{ event}} {{ event.status }}  start:{{ event.start_date }}   end: {{ event.end_date }}
-    {% if event.status == "Open" %}
-      {{ 'True' }}
     {% else %}
-      {{ 'False'}}
-    {% endif %}
-    {%  for team in event.winner %}
+        {%  for team in event.winner %}
             <div class="row">
                 <div class="col-md-9">
                     <h3>Winner:</h3>
@@ -24,6 +24,9 @@
                 </div>
             </div>
         {% endfor %}
+      This is the  {{ event}}. This event is {{ event.status }}, it started at {{ event.start_date }}  and ended at {{ event.end_date }}
+
+    {% endif %}
     {% endif %}
 {% endblock %}
 

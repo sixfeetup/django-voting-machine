@@ -22,7 +22,7 @@
       <h3>{{ event }}</h3>
             <ol>
             {% for team in event.team_set.all %}
-                <li>{{ team }} 
+                <li>{{ team }}
                     {% if request.user in team.members.all %}
                         <button class="btn btn-primary" type="submit"
                                 data-action="leave" data-team="{{ team.id }}">LEAVE</button>

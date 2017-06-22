@@ -35,27 +35,16 @@ class Event(models.Model):
         teams = self.team_set.all()
         sorted_teams = sorted(teams, key=lambda team: team.get_total_score(), reverse=True)
         return sorted_teams
-    #
-    # def is_open(self):
-    #     now = datetime.now()
-    #     if self.start_date < now < self.end_date:
-    #         return True
-    #
-    # def is_closed(self):
-    #     if not self.is_open():
-    #         return False
 
     def status(self):
 
         now = datetime.now(tz=UTC)
-       # import pdb; pdb.set_trace()
-
         if self.start_date < now < self.end_date:
-            return 'Open'
+            return 'open'
         elif self.end_date < now:
             return 'closed'
         elif self.start_date > now:
-            return 'Upcoming'
+            return 'upcoming'
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)

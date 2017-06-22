@@ -15,6 +15,7 @@
         {% for team in object_list %}
             <h3>{{ team.title }}</h3>
             <p>{{team.description}}</p>
+            <li>Team Leader: {{team.leader  }}</li>
             <ol>
                 {% for member in team.members.all %}
                     <li>{{member}}</li>

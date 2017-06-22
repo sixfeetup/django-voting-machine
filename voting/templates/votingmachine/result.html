@@ -14,13 +14,18 @@
         {%  for team in event.winner %}
             <div class="row">
                 <div class="col-md-9">
-                    <h3>Winner:</h3>
+                    <h{{ forloop.counter }} %}>Winner:</h{{ forloop.counter }}>
                     <p>{{ team}} </p>
                     <h6>Get Category Score: {{ team.get_category_score }}</h6>
                     <h6>Team members #:{{ team.count_members }}</h6>
                     <h6>Get Total Score: {{ team.get_total_score }}</h6>
                     <h6>Division: {{ team.divscore_members }}</h6>
                     <h6>Final Result: {{ team.total_final_result }}</h6>
+                        <h5>Members:</h5>
+                    {% for member in team.members.all %}
+                        <h6><li>{{member}}</li></h6>
+                    {% endfor %}
+
                 </div>
             </div>
         {% endfor %}

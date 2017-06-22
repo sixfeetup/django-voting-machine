@@ -31,6 +31,9 @@ class Event(models.Model):
     start_date = models.DateTimeField(null=True, blank=True)
     end_date = models.DateTimeField(null=True, blank=True)
 
+    class Meta:
+        ordering = ('start_date',)
+
     def winner(self):
         teams = self.team_set.all()
         sorted_teams = sorted(teams, key=lambda team: team.get_total_score(), reverse=True)
@@ -91,7 +94,7 @@ class Team(models.Model):
         ordering = ["title"]
 
     def count_members(self):
-        return self.all_members.count()
+        return len( self.all_members )
 
     def get_votes(self, category):
         return Value.objects.filter(event=self.event, category=category, team=self)
@@ -115,7 +118,7 @@ class Team(models.Model):
 
     @property
     def all_members(self):
-        return self.members.order_by('id').all()
+        return set([ self.leader,] + list(self.members.order_by('id').all()))
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)

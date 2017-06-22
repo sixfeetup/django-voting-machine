@@ -111,15 +111,6 @@ def add_value_to_vote(votes, value):
     return
 
 
-def user_permitted(function=None, redirect_field_name=None):
-    def decorator(function=None):
-        def _wrapped_view(request, *args, **kwargs):
-            # get obj from request
-            if obj.user != request.user:
-                return HttpResponseRedirect(reverse('forbidden'))
-            return function(request, *args, **kwargs)
-        return _wrapped_view
-    return decorator(function)
 
 
 from django.core.exceptions import PermissionDenied
@@ -140,6 +131,11 @@ def collect_vote(request, pk):
     t_id = request.POST['team_id']
     cat = request.POST['category']
     value_id = int(request.POST['value'])
+    # ensure the user is not voting for their own teams:
+    team = Team.objects.get(id=t_id)
+    if request.user in team.all_members:
+        return HttpResponse("You cannot vote for your own team.", content_type="text/plain")
+
     (vote, is_new) = Value.objects.get_or_create(
         user=User.objects.get(pk=u_id),
         team=Team.objects.get(pk=t_id),

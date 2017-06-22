@@ -14,6 +14,15 @@
     </div>
         {% for team in object_list %}
             <h3>{{ team.title }}</h3>
+                <li>{{ team }}
+                    {% if request.user in team.members.all %}
+                        <button class="btn btn-primary" type="submit"
+                                data-action="leave" data-team="{{ team.id }}">LEAVE</button>
+                    {% else %}
+                        <button class="btn btn-success" type="submit"
+                                data-action="join" data-team="{{ team.id }}">JOIN</button>
+                    {% endif %}
+                </li>
             <p>{{team.description}}</p>
             <li>Team Leader: {{team.leader  }}</li>
             <ol>
@@ -26,20 +35,46 @@
             <p>No Teams yet.</p>
         {% endfor %}
 
-{#    {% if show_post_event %}#}
-{#          <div class="panel-body">#}
-{#            <form method="POST">#}
-{#              {% csrf_token %}#}
-{#              <div class="form-group">#}
-{#                <textarea name="content" class="form-control"></textarea>#}
-{#              </div>#}
-{#              <div class="form-group">#}
-{#                <button type="submit" class="btn btn-success">Post</button>#}
-{#              </div>#}
-{#            </form>#}
-{#          </div>#}
-{#    {% endif %}#}
+
+<script>
+(function($) { $(function() {
+    $('button').click(function(){
+        $btn = $(this);
+        var team_id = $(this).attr("data-team");
+        var taction = $(this).attr("data-action");
+         $.post('/votingmachine/event/team/' + team_id + '/' + taction + "/",
+                {csrfmiddlewaretoken: '{{ csrf_token }}'},
+                function(data){
+                    if (data.status == 'OK') {
+                        window.location.reload();
+                    } else {
+                        $btn.after('<span class="err-msg">' + data.message + ' ' + data.reason + '</span>');
+                    }
+                });
+     });
+}); })(jQuery);
+</script>
 
 {% endblock %}
 
-
+{##}
+{#{% if object == request.user %}#}
+{#   {%  for event in view.all_events.all %}#}
+{#      <h3>{{ event }}</h3>#}
+{#            <ol>#}
+{#            {% for team in event.team_set.all %}#}
+{#                <li>{{ team }}#}
+{#                    {% if request.user in team.members.all %}#}
+{#                        <button class="btn btn-primary" type="submit"#}
+{#                                data-action="leave" data-team="{{ team.id }}">LEAVE</button>#}
+{#                    {% else %}#}
+{#                        <button class="btn btn-success" type="submit"#}
+{#                                data-action="join" data-team="{{ team.id }}">JOIN</button>#}
+{#                    {% endif %}#}
+{#                </li>#}
+{#            {%  endfor %}#}
+{#            </ol>#}
+{#      <hr>#}
+{#   {%  endfor %}#}
+{##}
+{#{% endif %}#}

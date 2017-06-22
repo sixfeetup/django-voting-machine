@@ -124,14 +124,3 @@ class Team(models.Model):
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)
-
-
-
-    # @classmethod
-    # def create(csl, title, description, members, leader, event):
-    #     team = csl(title=title, description=description, members=members, leader=leader, event=event)
-    #     return team
-    #
-    # def create_team(self, title, description, members, leader, event):
-    #     team = self.create(title=title, description=description, members=members, leader=leader, event=event)
-    #     return team

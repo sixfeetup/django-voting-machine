@@ -14,8 +14,11 @@
         {%  for team in event.winner %}
             <div class="row">
                 <div class="col-md-9">
-                    <h{{ forloop.counter }} %}>Winner:</h{{ forloop.counter }}>
-                    <p>{{ team}} </p>
+                    {%  if forloop.counter < 2 %}
+                        <h1>Winner: {{team}}</h1>
+                    {%else%}
+                        <p>{{ team}} </p>
+                    {% endif %}
                     <h6>Get Category Score: {{ team.get_category_score }}</h6>
                     <h6>Team members #:{{ team.count_members }}</h6>
                     <h6>Get Total Score: {{ team.get_total_score }}</h6>
@@ -28,6 +31,7 @@
 
                 </div>
             </div>
+            <hr/>
         {% endfor %}
       This is the  {{ event}}. This event is {{ event.status }}, it started at {{ event.start_date }}  and ended at {{ event.end_date }}
 

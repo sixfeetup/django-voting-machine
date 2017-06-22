@@ -20,7 +20,7 @@ class TeamForm(forms.ModelForm):
         widgets = {
             'members': SearchableSelect(model='users.User',
                                         search_field='username',
-                                        many='True', limit=100
+                                        many='True', limit=10
                                         )
         }
 

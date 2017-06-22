@@ -24,7 +24,7 @@
                     {% endif %}
                 </li>
             <p>{{team.description}}</p>
-            <li>Team Leader: {{team.leader  }}</li>
+            <p> Team Leader: {{team.leader  }}</p>
             <ol>
                 {% for member in team.members.all %}
                     <li>{{member}}</li>

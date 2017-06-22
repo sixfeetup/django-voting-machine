@@ -48,8 +48,6 @@ class Event(models.Model):
             return 'closed'
         elif self.start_date > now:
             return 'upcoming'
-    # def __repr__(self):
-    #     return self.username
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)

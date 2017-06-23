@@ -57,24 +57,4 @@
 
 {% endblock %}
 
-{##}
-{#{% if object == request.user %}#}
-{#   {%  for event in view.all_events.all %}#}
-{#      <h3>{{ event }}</h3>#}
-{#            <ol>#}
-{#            {% for team in event.team_set.all %}#}
-{#                <li>{{ team }}#}
-{#                    {% if request.user in team.members.all %}#}
-{#                        <button class="btn btn-primary" type="submit"#}
-{#                                data-action="leave" data-team="{{ team.id }}">LEAVE</button>#}
-{#                    {% else %}#}
-{#                        <button class="btn btn-success" type="submit"#}
-{#                                data-action="join" data-team="{{ team.id }}">JOIN</button>#}
-{#                    {% endif %}#}
-{#                </li>#}
-{#            {%  endfor %}#}
-{#            </ol>#}
-{#      <hr>#}
-{#   {%  endfor %}#}
-{##}
-{#{% endif %}#}
+

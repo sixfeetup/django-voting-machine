@@ -15,16 +15,12 @@
             <div class="row">
                 <div class="col-md-9">
                     {%  if forloop.counter < 2 %}
-                        <h1>Winner:</h1>
+                        <h1>The winner is:</h1>
                         <h3>{{team}}</h3>
                     {%else%}
                         <p>{{ team}} </p>
                     {% endif %}
-                    <h6>Get Category Score: {{ team.get_category_score }}</h6>
-                    <h6>Team members #:{{ team.count_members }}</h6>
-                    <h6>Get Total Score: {{ team.get_total_score }}</h6>
-                    <h6>Division: {{ team.divscore_members }}</h6>
-                    <h6>Final Result: {{ team.total_final_result }}</h6>
+                    <h6>Total Score: {{ team.divscore_members }} %</h6>
                     <h5>Members:</h5>
                     <h6>{% for member in team.members.all %}
                         <li>{{member}}</li>

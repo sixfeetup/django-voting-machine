@@ -114,7 +114,7 @@ class Team(models.Model):
         return self.get_total_score() / self.count_members()
 
     def total_final_result(self):
-        return (self.get_total_score() / int(self.event.weighted)) * 100
+        return (self.divscore_members() / int(self.event.weighted)) * 10
 
     @property
     def all_members(self):

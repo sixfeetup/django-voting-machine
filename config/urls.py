@@ -4,7 +4,7 @@ from django.conf.urls.static import static
 from django.contrib import admin
 from django.views.generic import TemplateView
 from django.views import defaults as default_views
-from ajax_select import urls as ajax_select_urls
+
 
 urlpatterns = [
     url(r'^$', TemplateView.as_view(template_name='votingmachine/home.html'), name='home'),
@@ -18,6 +18,8 @@ urlpatterns = [
 
 
     # Your stuff: custom urls includes go here
+
+
 
     # VotingMachineApp management
     url(r'^votingmachine/', include('voting.votingmachine.urls', namespace='votingmachine')),

@@ -23,17 +23,31 @@
         <div class="panel-heading">
           <h4>Event Information </h4>
         </div>
-
-        <ul>
-            <li>Status {{ event.status }}</li>
-            {% for team in event.team_set.all %}
-                <li><h3>{{ team.title }}</h3></li><h4>{{team.description}}</h4>
-                {% for member in team.members.all %}
-                    <h4>{{member}}</h4>
-                {% endfor %}
-            {% empty %}
-                <li>No Teams yet.</li>
+{#{{ event.state}}#}
+            <li>Status
+            {% for es in event.state %}
+                {% if event.state == "S" %}
+                    setup.
+                {% elif event.state == "A" %}
+                    active.
+                {% elif event.state == "P" %}
+                    paused.
+                {% else %}
+                    finished.
+                {% endif %}
             {% endfor %}
+            </li>
+            <li>TEAMS
+                {% for team in event.team_set.all %}
+                    <h3>{{ team.title }}</h3>
+                    <h4>{{team.description}}</h4>
+                    {% for member in team.members.all %}
+                        <h4>{{member}}</h4>
+                    {% endfor %}
+                {% empty %}
+                    No Teams yet.
+                {% endfor %}
+                </li>
         </ul>
         {% if show_post_event %}
           <div class="panel-body">

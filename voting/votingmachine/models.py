@@ -25,7 +25,7 @@ class Event(models.Model):
     title = models.CharField(max_length=256, unique=True, default='')
     description = models.CharField(max_length=2048, default='')
     owner = models.ForeignKey(User, on_delete=models.PROTECT, default='')
-    state = models.CharField(max_length=3, choices=STATE_CHOICES, default='S')
+    state = models.CharField(max_length=10, choices=STATE_CHOICES, default='S')
     weighted = models.CharField(max_length=5, choices=WEIGHT_CHOICES, default=0)
     created = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(null=True, blank=True)
@@ -94,7 +94,7 @@ class Team(models.Model):
         ordering = ["title"]
 
     def count_members(self):
-        return len( self.all_members )
+        return len( self.all_members)
 
     def get_votes(self, category):
         return Value.objects.filter(event=self.event, category=category, team=self)
@@ -118,7 +118,7 @@ class Team(models.Model):
 
     @property
     def all_members(self):
-        return set([ self.leader,] + list(self.members.order_by('id').all()))
+        return set([self.leader,] + list(self.members.order_by('id').all()))
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)

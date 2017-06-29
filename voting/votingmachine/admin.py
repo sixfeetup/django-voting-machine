@@ -12,6 +12,18 @@ class EventAdmin(admin.ModelAdmin):
 admin.site.register(Event, EventAdmin)
 
 
+# class TeamForm(forms.ModelForm):
+#     class Meta:
+#         model = Team
+#         exclude = ()
+#         widgets = {
+#             'members': SearchableSelect(model='users.User',
+#                                         search_field='username',
+#                                         many=True,
+#                                         limit=20
+#                                         )
+#         }
+
 class TeamAdmin(admin.ModelAdmin):
     # form = TeamForm
     list_display = ['title', 'leader', 'all_members', 'description']

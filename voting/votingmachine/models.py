@@ -36,7 +36,7 @@ class Event(models.Model):
 
     def winner(self):
         teams = self.team_set.all()
-        sorted_teams = sorted(teams, key=lambda team: team.get_total_score(), reverse=True)
+        sorted_teams = sorted(teams, key=lambda team: team.total_final_result(), reverse=True)
         return sorted_teams
 
     def status(self):
@@ -93,8 +93,19 @@ class Team(models.Model):
     class Meta:
         ordering = ["title"]
 
+    @property
+    def all_members(self):
+        return set([self.leader,] + list(self.members.order_by('id').all()))
+
     def count_members(self):
-        return len( self.all_members)
+        return len(self.all_members)
+
+    def count_event_team_all_members(self):
+        team_member_count = 0
+        for team in Team.objects.filter(event=self.event):
+            team_member_count += team.count_members()
+        return team_member_count
+
 
     def get_votes(self, category):
         return Value.objects.filter(event=self.event, category=category, team=self)
@@ -102,6 +113,7 @@ class Team(models.Model):
     def get_category_score(self, category):
         cat_score = sum(self.get_votes(category).values_list('votes', flat=True))
         return cat_score
+
 
     def get_total_score(self):
         tot_score = 0
@@ -111,14 +123,11 @@ class Team(models.Model):
         return tot_score
 
     def divscore_members(self):
-        return self.get_total_score() / self.count_members()
+        divi = self.get_total_score() / (self.count_event_team_all_members()-self.count_members())
+        return divi / int(self.event.weighted)
 
     def total_final_result(self):
-        return (self.divscore_members() / int(self.event.weighted)) * 10
-
-    @property
-    def all_members(self):
-        return set([self.leader,] + list(self.members.order_by('id').all()))
+        return self.divscore_members() / int(self.event.weighted) *100
 
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)

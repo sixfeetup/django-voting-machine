@@ -13,7 +13,7 @@
       </div>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4>About {{ event.title }} </h4>
+          <h3>About {{ event.title|lower }} </h3>
         </div>
         <div class="panel-body">
           <p>{{ event.description }}</p>
@@ -21,10 +21,10 @@
       </div>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h4>Event Information </h4>
+          <h3>Event Information </h3>
         </div>
 {#{{ event.state}}#}
-            <li>Status
+            <h3>Status
             {% for es in event.state %}
                 {% if event.state == "S" %}
                     setup.
@@ -36,18 +36,20 @@
                     finished.
                 {% endif %}
             {% endfor %}
-            </li>
-            <li>TEAMS
+            </h3>
+            <h3>Teams:
+            <hr>
                 {% for team in event.team_set.all %}
-                    <h3>{{ team.title }}</h3>
-                    <h4>{{team.description}}</h4>
-                    {% for member in team.members.all %}
-                        <h4>{{member}}</h4>
+                    <h4>{{ team.title }}</h4>
+                    <h5>{{team.description}}</h5>
+                    {% for member in team.all_members %}
+                        <li>{{member}}</li>
                     {% endfor %}
+                    <hr>
                 {% empty %}
                     No Teams yet.
                 {% endfor %}
-                </li>
+                </h3>
         </ul>
         {% if show_post_event %}
           <div class="panel-body">

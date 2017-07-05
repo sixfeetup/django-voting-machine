@@ -22,6 +22,7 @@ class HomePageView(TemplateView):
 class TeamListView(LoginRequiredMixin, ListView):
     redirect_field_name = 'redirect_to'
     model = Team
+    template_name = 'votingmachine/team_list.html'
 
 
 class EventListView(LoginRequiredMixin, ListView):
@@ -39,6 +40,9 @@ class ProfileDetail(LoginRequiredMixin, DetailView):
     redirect_field_name = 'redirect_to'
     model = User
     template_name = 'votingmachine/profile.html'
+
+    def events_all(self):
+        return Event.objects.all()
 
 
 class ValueView(LoginRequiredMixin, TemplateView):

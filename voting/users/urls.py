@@ -6,13 +6,23 @@ from django.contrib.auth import views as auth_views
 urlpatterns = [
     url(
         regex=r'^$',
-        view=views.UserListView.as_view(),
+        view=views.HomePageView.as_view(),
         name='home'
+    ),
+    url(
+        regex=r'^list$',
+        view=views.UserListView.as_view(),
+        name='list'
     ),
     url(
         regex=r'^~redirect/$',
         view=views.UserRedirectView.as_view(),
         name='redirect'
+    ),
+    url(
+        regex=r'^~update/$',
+        view=views.UserUpdateView.as_view(),
+        name='update'
     ),
     url(
         regex=r'^signup/$',

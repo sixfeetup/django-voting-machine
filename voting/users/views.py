@@ -48,12 +48,20 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
         # Only get the User record for the user making the request
         return User.objects.get(username=self.request.user.username)
 
+# class UserListView(TemplateView):
+#     template_name = 'votingmachine/home.html'
 
-class UserListView(TemplateView):
+
+class HomePageView(TemplateView):
     template_name = 'votingmachine/home.html'
 
-# class HomePageView(TemplateView):
-#     template_name = 'votingmachine/home.html'
+
+class UserListView(LoginRequiredMixin, ListView):
+    model = User
+    # These next two lines tell the view to index lookups by username
+    slug_field = 'username'
+    slug_url_kwarg = 'username'
+
 
 def signup(request):
     if request.method == 'POST':

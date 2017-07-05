@@ -3,15 +3,40 @@
 
 {% block content %}
 
-    <h1>Profile Detail: {{ object.username}}</h1>
-    <li>Status: {% if Team.leader %}
-        <p>{{ Team.leader.pk }}</p>
-      {% endif %} }}
+    <h1>Profile Detail:</h1>
+        <div class="row">
+            <div class="col-sm-12">
+                <h2>{{ object.username }}</h2>
+                <h2>{{ object.first_name }}</h2>
+                <h2>{{ object.last_name }}</h2>
+            </div>
+        </div>
+
+
+    <li>Status:
+        {% for team in team.object.list %}
+            <p>This is a Team Leader in {{ team.leader }}</p>
+        {% endfor %}
     </li>
     <li>Event: {{ Event.pk }}</li>
-    <li>description: {{ Team.description }}</li>
+
     <div class="col-sm-12">
         <a class="btn btn-primary" href="{% url 'users:detail' user.username %}" role="button">Edit Account</a>
+        <a class="btn btn-primary" href="{% url 'users:detail' user.username %}" role="button">Change Password</a>
+        <a class="btn btn-primary" href="{% url 'users:logout' %}" role="button">Log out</a>
     </div>
+
+{##}
+{#    {% if object == request.user %}#}
+{#            {%  for event in view.events_all.all %}#}
+{#                <h3>{{ event }}</h3>#}
+{#                <ol>#}
+{#                {% for team in event.team_set.all %}#}
+{#                <li>{{ team }}</li>#}
+{#            {%  endfor %}#}
+{#            </ol>#}
+{#            <hr>#}
+{#            {%  endfor %}#}
+{#    {% endif %}#}
 
 {% endblock %}

@@ -1,13 +1,14 @@
 {% extends "base.html" %}
+
 {% load static %}
+
+{% block title %}User: {{ object.username }}{% endblock %}
 
 {% block content %}
 <div class="container">
 
-
   <div class="row">
     <div class="col-sm-12">
-
       <h2>{{ object.username }}</h2>
       {% if object.name %}
         <p>{{ object.name }}</p>
@@ -15,21 +16,68 @@
     </div>
   </div>
 
-{% if object == request.user %}
-   {%  for event in view.all_events.all %}
-      <h3>{{ event }}</h3>
-            <ol>
-            {% for team in event.team_set.all %}
-                <li>{{ team }}
-                </li>
+    {% if object == request.user %}
+    <!-- Action buttons -->
+        <div class="row">
+        <div class="col-sm-12">
+            <a class="btn btn-primary" href="{% url 'users:update' %}" role="button">Edit Account</a>
+        {#    <a class="btn btn-primary" href="{% url 'account_email' %}" role="button">E-Mail</a>#}
+        {#    <a class="btn btn-primary" href="{% url 'users:detail' user.username %}" role="button">Change Password</a>#}
+            <a class="btn btn-primary" href="{% url 'users:logout' %}" role="button">Log out</a>
+    <!-- Your Stuff: Custom user template urls -->
+        </div>
+        </div>
+    <!-- End Action buttons -->
+    {% endif %}
+     {% if object == request.user %}
+            {%  for event in views.events_all.all %}
+                <h3>{{ event }}</h3>
+                <ol>
+                {% for team in event.team_set.all %}
+                <li>{{ team }}</li>
             {%  endfor %}
             </ol>
-      <hr>
-   {%  endfor %}
-{% endif %}
-
-
-
+            <hr>
+            {%  endfor %}
+    {% endif %}
 </div>
+
+
 {% endblock content %}
+
+
+
+
+
+
+
+{##}
+{#{% block content %}#}
+{#<div class="container">#}
+{##}
+{##}
+{#  <div class="row">#}
+{#    <div class="col-sm-12">#}
+{##}
+{#      <h2>{{ object.username }}</h2>#}
+{#    </div>#}
+{#  </div>#}
+{##}
+{#{% if object == request.user %}#}
+{#   {%  for event in view.all_events.all %}#}
+{#      <h3>{{ event }}</h3>#}
+{#            <ol>#}
+{#            {% for team in event.team_set.all %}#}
+{#                <li>{{ team }}#}
+{#                </li>#}
+{#            {%  endfor %}#}
+{#            </ol>#}
+{#      <hr>#}
+{#   {%  endfor %}#}
+{#{% endif %}#}
+{##}
+{##}
+{##}
+{#</div>#}
+{#{% endblock content %}#}
 

@@ -5,16 +5,28 @@
     <div class="row">
     <div class="col-md-12">
             <h2>Teams</h2>
+        {% if team_list.event_id.status == 'open' %}
+            <p> There are no teams created for this event yet.</p>
+            {% if user and not user.is_anonymous %}
+                <a href="{% url 'users:create_team'%}" class="btn btn-success pull-right">Create Team</a>
+            {% else %}
+                You need to login to see Event information!
+            {% endif %}
+        {% else %}
             {% if user and not user.is_anonymous %}
               <a href="{% url 'users:create_team'%}" class="btn btn-success pull-right">Create Team</a>
-          {% else %}
-            You need to login to see Event information!
-          {% endif %}
+            {% else %}
+                You need to login to see Event information!
+            {% endif %}
+        {% endif %}
+
     </div>
     </div>
-        {% for team in object_list %}
-            <h3>{{ team.title }}</h3>
-                <li>{{ team }}
+
+        {% for team in team_list %}
+            {% if team.event.status == 'open'%}
+                <h3>{{ team.title|upper  }}</h3>
+                <li> {{ team.title}} : {{ team.description }}
                     {% if request.user in team.members.all %}
                         <button class="btn btn-primary" type="submit"
                                 data-action="leave" data-team="{{ team.id }}">LEAVE</button>
@@ -23,17 +35,17 @@
                                 data-action="join" data-team="{{ team.id }}">JOIN</button>
                     {% endif %}
                 </li>
-            <p>{{team.description}}</p>
-            <p> Team Leader: {{team.leader  }}</p>
-            <ol>
-                {% for member in team.all_members %}
-                    <li>{{member}}</li>
-                {% endfor %}
-            </ol>
-            <hr>
+                <li> Event: {{ team.event.title }}</li>
+                <li> Team Leader: {{team.leader }}</li>
+                <li> Members:
+                <ol>{% for member in team.all_members %}
+                        <li>{{member}}</li>
+                    {% endfor %}</ol></li>
+            {% endif %}
         {% empty %}
-            <p>No Teams yet.</p>
+            <li> There are no teams created for this event yet.</li>
         {% endfor %}
+    <hr>
 
 
 <script>

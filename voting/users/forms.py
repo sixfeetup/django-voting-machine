@@ -2,7 +2,6 @@ from django import forms
 from django.contrib.auth.forms import UserCreationForm
 from django.contrib.auth import get_user_model
 from voting.votingmachine.models import Team, Event
-#from voting.users.models import User
 
 User = get_user_model()
 
@@ -22,4 +21,4 @@ class CreateTeamForm(forms.ModelForm):
     class Meta:
         model = Team
         fields = ('title', 'description', 'members', 'leader', 'event')
-    event = forms.ModelChoiceField(queryset=Event.objects.all().filter(state="A"))
+    event = forms.ModelChoiceField(queryset=Event.objects.all().filter(state= "A"))

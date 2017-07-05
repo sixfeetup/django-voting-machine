@@ -40,8 +40,8 @@ htmlcov
 *.pot
 
 # Pycharm
+.idea/
 .idea/*
-
 
 # Vim
 

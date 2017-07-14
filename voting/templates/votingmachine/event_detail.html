@@ -73,7 +73,7 @@
               {% if event.status == 'open' %}
                 <a href="{% url 'votingmachine:vote_detail' event.id %}" class="btn btn-success btn-block">Vote Now</a>
               {% else %}
-                  This Event is cosed.
+                  This Event is closed.
               {% endif %}
 {#            <form method="POST" action="/votingmachine/event/team/">#}
 {#              {% csrf_token %}#}

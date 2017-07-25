@@ -9,9 +9,11 @@ from pytz import UTC
 
 User = user_model()
 
+
 class EventManager(models.Manager):
     def active(self):
         return self.filter(state='A')
+
 
 class Event(models.Model):
     WEIGHT_CHOICES = (
@@ -20,15 +22,13 @@ class Event(models.Model):
         ('3', '3')
     )
     STATE_CHOICES = (
-        ('S', 'Setup'),
         ('A', 'Active'),
-        ('P', 'Paused'),
         ('F', 'Finished')
     )
     title = models.CharField(max_length=256, unique=True, default='')
     description = models.CharField(max_length=2048, default='')
     owner = models.ForeignKey(User, on_delete=models.PROTECT, default='')
-    state = models.CharField(max_length=10, choices=STATE_CHOICES, default='S')
+    state = models.CharField(max_length=10, choices=STATE_CHOICES, default='A')
     weighted = models.CharField(max_length=5, choices=WEIGHT_CHOICES, default=0)
     created = models.DateTimeField(auto_now_add=True)
     start_date = models.DateTimeField(null=True, blank=True)
@@ -38,7 +38,6 @@ class Event(models.Model):
         ordering = ('start_date',)
 
     objects = EventManager()
-
 
     def winner(self):
         teams = self.team_set.all()

@@ -28,7 +28,11 @@
                 <h5>{{team.description}}</h5>
                 {% for member in team.all_members %}
                     <ol style="list-style: decimal inside;">
-                        {{member}}
+                        {% if member == team.leader %}
+                            Leader: {{member}}
+                        {% else %}
+                            {{member}}
+                        {% endif %}
                     </ol>
                 {% endfor %}
                     <hr>

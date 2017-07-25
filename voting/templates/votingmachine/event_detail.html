@@ -8,7 +8,13 @@
       <div class="panel panel-default">
         <div class="panel-body">
           <h3>{{ event.title }}</h3>
-          <hr/>
+            {% if event.status == 'open' %}
+                {% if user and not user.is_anonymous %}
+                    <a href="{% url 'users:create_team'%}" class="btn btn-success pull-right">Create Team</a>
+                {% else %}
+                    You need to login to see Event information!
+                {% endif %}
+            {% endif %}
         </div>
       </div>
       <div class="panel panel-default">

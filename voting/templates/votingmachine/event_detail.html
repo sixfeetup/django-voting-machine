@@ -13,7 +13,7 @@
       </div>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3>About {{ event.title|lower }} </h3>
+          <h3>Event Description </h3>
         </div>
         <div class="panel-body">
           <p>{{ event.description }}</p>
@@ -21,36 +21,21 @@
       </div>
       <div class="panel panel-default">
         <div class="panel-heading">
-          <h3>Event Information </h3>
+          <h3>Event Teams </h3>
         </div>
-{#{{ event.state}}#}
-            <h3>Status
-            {% for es in event.state %}
-                {% if event.state == "S" %}
-                    setup.
-                {% elif event.state == "A" %}
-                    active.
-                {% elif event.state == "P" %}
-                    paused.
-                {% else %}
-                    finished.
-                {% endif %}
-            {% endfor %}
-            </h3>
-            <h3>Teams:
-            <hr>
-                {% for team in event.team_set.all %}
-                    <h4>{{ team.title }}</h4>
-                    <h5>{{team.description}}</h5>
-                    {% for member in team.all_members %}
-                        <li>{{member}}</li>
-                    {% endfor %}
-                    <hr>
-                {% empty %}
-                    No Teams yet.
+            {% for team in event.team_set.all %}
+                <h4>{{ team.title }}</h4>
+                <h5>{{team.description}}</h5>
+                {% for member in team.all_members %}
+                    <ol style="list-style: decimal inside;">
+                        {{member}}
+                    </ol>
                 {% endfor %}
-                </h3>
-        </ul>
+                    <hr>
+            {% empty %}
+                No Teams yet.
+            {% endfor %}
+
         {% if show_post_event %}
           <div class="panel-body">
             <form method="POST">
@@ -93,3 +78,18 @@
     </div>
 
 {% endblock %}
+
+
+{#            <h3>Status#}
+{#            {% for es in event.state %}#}
+{#                {% if event.state == "S" %}#}
+{#                    setup.#}
+{#                {% elif event.state == "A" %}#}
+{#                    active.#}
+{#                {% elif event.state == "P" %}#}
+{#                    paused.#}
+{#                {% else %}#}
+{#                    finished.#}
+{#                {% endif %}#}
+{#            {% endfor %}#}
+{#            </h3>#}

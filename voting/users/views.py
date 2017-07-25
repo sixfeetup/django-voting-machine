@@ -39,7 +39,8 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
 
 
 class UserUpdateView(LoginRequiredMixin, UpdateView):
-    fields = ['username', ]
+    fields = ['first_name', 'last_name', 'username', ]
+
     # we already imported User in the view code above, remember?
     model = User
 
@@ -50,10 +51,39 @@ class UserUpdateView(LoginRequiredMixin, UpdateView):
 
     def get_object(self):
         # Only get the User record for the user making the request
-        return User.objects.get(username=self.request.user.username)
+        return User.objects.get(username=self.request.user.username, first_name=self.request.user.first_name, last_name=self.request.user.last_name)
 
-# class UserListView(TemplateView):
-#     template_name = 'votingmachine/home.html'
+
+class UserUpdateEmailView(LoginRequiredMixin, UpdateView):
+        fields = ['username', ]
+
+        # we already imported User in the view code above, remember?
+        model = User
+
+        # send the user back to their own page after a successful update
+        def get_success_url(self):
+            return reverse('users:detail',
+                           kwargs={'username': self.request.user.username})
+
+        def get_object(self):
+            # Only get the User record for the user making the request
+            return User.objects.get(username=self.request.user.username, )
+
+
+class UserUpdatePasswordView(LoginRequiredMixin, UpdateView):
+    fields = ['password', ]
+
+    # we already imported User in the view code above, remember?
+    model = User
+
+    # send the user back to their own page after a successful update
+    def get_success_url(self):
+        return reverse('users:detail',
+                       kwargs={'username': self.request.user.username})
+
+    def get_object(self):
+        # Only get the User record for the user making the request
+        return User.objects.get(password=self.request.user.password, )
 
 
 class HomePageView(TemplateView):

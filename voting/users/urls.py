@@ -25,6 +25,16 @@ urlpatterns = [
         name='update'
     ),
     url(
+        regex=r'^~emailupdate/$',
+        view=views.UserUpdateEmailView.as_view(),
+        name='emailupdate'
+    ),
+    url(
+        regex=r'^~passwordupdate/$',
+        view=views.UserUpdatePasswordView.as_view(),
+        name='passwordupdate'
+    ),
+    url(
         regex=r'^signup/$',
         view=views.signup,
         name='signup'

@@ -21,7 +21,7 @@ class HomePageView(TemplateView):
 
 class TeamListView(LoginRequiredMixin, ListView):
     redirect_field_name = 'redirect_to'
-    model = Team
+    queryset = Event.objects.active()
     template_name = 'votingmachine/team_list.html'
 
 

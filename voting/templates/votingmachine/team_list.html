@@ -22,33 +22,38 @@
 
     </div>
     </div>
-
-        {% for team in team_list %}
-            {% if team.event.status == 'open'%}
-                <ul> <h3>{{ team.title|upper  }}
-                    {% if request.user in team.members.all %}
-                        <button class="btn btn-primary" type="submit"
-                                data-action="leave" data-team="{{ team.id }}">LEAVE</button>
-                    {% else %}
-                        <button class="btn btn-success" type="submit"
-                                data-action="join" data-team="{{ team.id }}">JOIN</button>
+        {% for event in event_list %}
+            {% if event.status == 'open'%}
+            <h4>Event: {{ event.title|upper }}</h4>
+                {% for team in event.team_set.all %}
+                    {% if team.event.status == 'open'%}
+                        <ul> <h3>{{ team.title|upper  }}
+                            {% if request.user in team.members.all %}
+                                <button class="btn btn-primary" type="submit"
+                                        data-action="leave" data-team="{{ team.id }}">LEAVE</button>
+                            {% else %}
+                                <button class="btn btn-success" type="submit"
+                                        data-action="join" data-team="{{ team.id }}">JOIN</button>
+                            {% endif %}
+                        </h3>
+        {#                </ol>#}
+{#                        <p> Event: {{ team.event.title }}</p>#}
+                        <p> Description: {{ team.description}}</p>
+                        <p> Team Leader: {{team.leader }}</p>
+                        <p> Members:
+                        <ol>{% for member in team.all_members %}
+                                <li>{{member}}</li>
+                            {% endfor %}</ol></p>
+                        <hr>
+                        </ul>
                     {% endif %}
-                </h3>
-{#                </ol>#}
-                <p> Event: {{ team.event.title }}</p>
-                <p> Description: {{ team.description}}</p>
-                <p> Team Leader: {{team.leader }}</p>
-                <p> Members:
-                <ol>{% for member in team.all_members %}
-                        <li>{{member}}</li>
-                    {% endfor %}</ol></p>
-                <hr>
-                </ul>
+                {% empty %}
+                    <li> There are no teams created for this event yet.</li>
+                {% endfor %}
+                <hr/>
             {% endif %}
-        {% empty %}
-            <li> There are no teams created for this event yet.</li>
         {% endfor %}
-    <hr>
+
 
 
 <script>

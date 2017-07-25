@@ -9,6 +9,9 @@ from pytz import UTC
 
 User = user_model()
 
+class EventManager(models.Manager):
+    def active(self):
+        return self.filter(state='A')
 
 class Event(models.Model):
     WEIGHT_CHOICES = (
@@ -33,6 +36,9 @@ class Event(models.Model):
 
     class Meta:
         ordering = ('start_date',)
+
+    objects = EventManager()
+
 
     def winner(self):
         teams = self.team_set.all()

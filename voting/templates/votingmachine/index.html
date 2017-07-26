@@ -6,11 +6,11 @@
 {% block page_content %}
 <div class="jumbotron">
     <h2>Welcome to the Sixfeetup's Voting Machine.</h2>
-    <link rel="stylesheet" type="text/css" href="{% static 'voteapp/style.css' %}" />
+    <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
     {% if latest_event_list %}
     <ul>
     {% for event in latest_event_list %}
-        <li><a href="{% url 'voteapp:detail' event.id %}">{{ event.event_text }}</a></li>
+        <li><a href="{% url 'votingmachine:vote_detail' event.id %}">{{ event.event_text }}</a></li>
     {% endfor %}
     </ul>
 {% else %}

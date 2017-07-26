@@ -12,11 +12,13 @@
                 <p>{{ event.description }}</p>
                 <a href="{% url 'votingmachine:event_detail' event.id %}" class="btn btn-info" role="button">Details</a>
             {% if event.status == 'open' %}
-                <a href="{% url 'votingmachine:vote_detail' event.id %}" class="btn btn-info" role="button">Vote</a>
+                {% if event.state == 'A'%}
+                    <a href="{% url 'votingmachine:vote_detail' event.id %}" class="btn btn-info" role="button">Vote</a>
+                {% endif %}
             {% endif %}
                 <a href="{% url 'votingmachine:result' event.id %}" class="btn btn-info" role="button">Result of the Vote</a>
-            </h3></li>
         {% endfor %}
+    </div>
     </div>
     </div>
 {% endblock %}

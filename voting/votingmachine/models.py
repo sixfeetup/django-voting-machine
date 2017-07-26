@@ -45,7 +45,6 @@ class Event(models.Model):
         return sorted_teams
 
     def status(self):
-
         now = datetime.now(tz=UTC)
         if self.start_date < now < self.end_date:
             return 'open'
@@ -111,14 +110,12 @@ class Team(models.Model):
             team_member_count += team.count_members()
         return team_member_count
 
-
     def get_votes(self, category):
         return Value.objects.filter(event=self.event, category=category, team=self)
 
     def get_category_score(self, category):
         cat_score = sum(self.get_votes(category).values_list('votes', flat=True))
         return cat_score
-
 
     def get_total_score(self):
         tot_score = 0

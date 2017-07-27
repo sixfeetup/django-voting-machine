@@ -35,9 +35,9 @@
                 {% for member in team.all_members %}
                     <ol style="list-style: decimal inside;">
                         {% if member == team.leader %}
-                            Leader: {{member}}
+                            Leader: {{member.first_name}} {{member.last_name}}
                         {% else %}
-                            {{member}}
+                            {{member.first_name}} {{member.last_name}}
                         {% endif %}
                     </ol>
                 {% endfor %}

@@ -39,10 +39,10 @@
         {#                </ol>#}
 {#                        <p> Event: {{ team.event.title }}</p>#}
                         <p> Description: {{ team.description}}</p>
-                        <p> Team Leader: {{team.leader }}</p>
+                        <p> Team Leader: {{team.leader.first_name }} {{team.leader.last_name }}</p>
                         <p> Members:
                         <ol>{% for member in team.all_members %}
-                                <li>{{member}}</li>
+                                <li>{{member.first_name}} {{ member.last_name }}</li>
                             {% endfor %}</ol></p>
                         <hr>
                         </ul>

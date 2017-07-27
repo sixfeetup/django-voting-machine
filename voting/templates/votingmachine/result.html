@@ -23,7 +23,7 @@
                     <h6>Total Score: {{ team.total_final_result }} %</h6>
                     <h5>Members:</h5>
                     <h6>{% for member in team.all_members %}
-                        <li>{{member }}</li>
+                        <li>{{member.first_name}} {{member.last_name}}</li>
                     {% endfor %}</h6>
 
                 </div>

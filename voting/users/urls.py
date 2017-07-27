@@ -34,11 +34,11 @@ urlpatterns = [
         view=views.UserUpdatePasswordView.as_view(),
         name='update_password'
     ),
-    # url(
-    #     regex=r'^~passwordupdate/$',
-    #     view=views.UserUpdateTeamView.as_view(),
-    #     name='update_team'
-    # ),
+    url(
+        regex=r'^~passwordupdate/$',
+        view=views.UserUpdateTeamView.as_view(),
+        name='update_team'
+    ),
     url(
         regex=r'^signup/$',
         view=views.signup,

@@ -125,8 +125,11 @@ class Team(models.Model):
         return tot_score
 
     def divscore_members(self):
-        divi = self.get_total_score() / (self.count_event_team_all_members()-self.count_members())
-        return divi / int(self.event.weighted)
+        if self.count_event_team_all_members() == self.count_members():
+            return 0
+        else:
+            divi = self.get_total_score() / (self.count_event_team_all_members()-self.count_members())
+            return divi / int(self.event.weighted)
 
     def total_final_result(self):
         return self.divscore_members() / int(self.event.weighted) *100

@@ -35,6 +35,8 @@
 {#                <h4>My Team {{ user.first_name }}</h4>#}
                 {% for team in object.leads.all %}
                     <h4><a class="btn btn-primary" href="{% url 'users:update_team' team_id=team.id %}" role="button" >Update Team {{ team.title }}</a></h4>
+                {% empty %}
+                    <h5>You are not a Team Leader.</h5>
                 {% endfor %}
             {% else %}
                 You need to login to see Event information!

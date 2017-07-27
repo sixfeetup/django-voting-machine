@@ -56,6 +56,9 @@ class Event(models.Model):
     def __str__(self):
         return " %s :  %s" % (self.title, self.description)
 
+    def is_user_ballot_complete(self, user):
+        """check that the user has Values for every team and category they are allowed to vote for, within this event
+        """
 
 class Value(models.Model):
     VOTES_CHOICES = (
@@ -73,6 +76,7 @@ class Value(models.Model):
     user = models.ForeignKey(User, on_delete=models.PROTECT)
     event = models.ForeignKey(Event, default='', on_delete=models.PROTECT)
     team = models.ForeignKey('Team', null=True, on_delete=models.PROTECT)
+    # complete = models.BooleanField()
 
     class Meta:
         unique_together = [('user', 'event', 'category', 'team')]

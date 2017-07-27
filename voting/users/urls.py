@@ -35,7 +35,7 @@ urlpatterns = [
         name='update_password'
     ),
     url(
-        regex=r'^~passwordupdate/$',
+        regex=r'^~updateteam/(?P<team_id>\d+)/$',
         view=views.UserUpdateTeamView.as_view(),
         name='update_team'
     ),

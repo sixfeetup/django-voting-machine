@@ -9,7 +9,8 @@
 
   <div class="row">
     <div class="col-sm-12">
-      <h2>{{ object.first_name|upper}} {{object.last_name|upper }}</h2>
+        <h3> My Profile</h3>
+      <h4>{{ object.first_name|upper}} {{object.last_name|upper }}</h4>
         <p>First Name: {{ object.first_name }}</p>
         <p>Last Name: {{ object.last_name }}</p>
         <p>Username: {{ object.username }}</p>
@@ -28,18 +29,15 @@
 
     <!-- Your Stuff: Custom user template urls -->
             {% if user and not user.is_anonymous %}
-              <a href="{% url 'users:create_team'%}" class="btn btn-success pull-right">Create Team</a>
-              <a href="{% url 'users:update_team'%}" class="nav-link dropdown-item" >Update Team</a>
+                <a href="{% url 'users:create_team'%}" class="btn btn-success pull-right">Create Team</a>
+                <hr>
+                <h4>My Teams</h4>
+{#                <h4>My Team {{ user.first_name }}</h4>#}
+                {% for team in object.leads.all %}
+                    <h4><a class="btn btn-primary" href="{% url 'users:update_team' team_id=team.id %}" role="button" >Update Team {{ team.title }}</a></h4>
+                {% endfor %}
             {% else %}
                 You need to login to see Event information!
-            {% endif %}
-            {% if object %}
-                {{ object }}
-                {{ all_event.all }}
-                {% if event in event.object.all %}
-                    {{ event}}
-{#                    <li><a class="nav-link dropdown-item" href="{% url 'users:teamupdate%}">My Team</a></li>#}
-                {% endif %}
             {% endif %}
         </div>
         </div>

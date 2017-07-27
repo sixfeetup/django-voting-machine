@@ -78,7 +78,9 @@
                     {% if user and not user.is_anonymous %}
                         <li role="separator" class="divider"></li>
                         <li><a class="nav-link dropdown-item" href="{% url 'users:create_team'%}">Create Team</a></li>
-{#                        My Team (for team leaders only)#}
+                        {% for team in object.leads.all %}
+                            <a class="nav-link dropdown-item" href="{% url 'users:update_team' team_id=team.id %}" role="button" >Update Team {{ team.title }}</a>
+                        {% endfor %}
                     {% endif %}
                   </ul>
 {#                </div>#}

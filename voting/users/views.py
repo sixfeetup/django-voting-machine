@@ -9,6 +9,7 @@ from django.shortcuts import render, redirect
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
 
+from django.core.mail import send_mail
 
 from .forms import SignUpForm, CreateTeamForm
 from .tokens import account_activation_token
@@ -66,9 +67,9 @@ class UserUpdateTeamView(LoginRequiredMixin, UpdateView):
                        kwargs={'username': self.request.user.username})
 
     def get_object(self):
+        team = Team.objects.get( id = self.kwargs['team_id'])
+        return team
         # Only get the User record for the user making the request
-        return User.objects.get(title=self.request.team.title, description=self.request.team.description,
-                                members=self.request.team.members, leader=self.request.team.leader, event=self.request.team.event)
 
 
 class UserUpdateEmailView(LoginRequiredMixin, UpdateView):
@@ -121,6 +122,8 @@ def signup(request):
             user = form.save(commit=False)
             user.is_active = True
             user.save()
+            email = user.username
+            send_mail('Welcome to Six Feet Up VotingMachine', 'Thank you for confirming your email and for participating with us!', 'admin@sixfeetup.com', [email, ])
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)

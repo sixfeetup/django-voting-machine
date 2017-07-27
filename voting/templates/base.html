@@ -43,23 +43,47 @@
         </button>
 
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav mr-auto">
-            <li class="nav-item active">
+          <ul class="nav navbar-nav mr-auto">
+            <li class="nav-item ">
               <a class="nav-link" href="{% url 'votingmachine:event_list'  %}">Events <span class="sr-only">(current)</span></a>
             </li>
-            <li class="nav-item active">
+            <li class="nav-item">
                 <a class="nav-link" href="{% url 'votingmachine:team_list' %}">Teams</a>
             </li>
             {% if request.user.is_authenticated %}
               <li class="nav-item">
                 {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">{{ user.first_name }} {% trans "Profile" %}</a>
+                  <a class="nav-link" href="{% url 'users:logout' %}">{% trans "Log Out" %}</a>
               </li>
 
-              <li class="nav-item">
+                <li class="nav-item dropdown">
                 {# URL provided by django-allauth/account/urls.py #}
-                <a class="nav-link" href="{% url 'users:logout' %}">{% trans "Log Out" %}</a>
-              </li>
+{#                <a class="nav-link" href="{% url 'users:detail' request.user.username  %}">{{ user.first_name }} {% trans "Profile" %}</a>#}
+{#              </li>#}
+
+{#                <div class="dropdown">#}
+                  <a class="nav-link dropdown-toggle" href="{% url "users:detail" request.user.username %}" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+{#                  <a class="btn btn-secondary dropdown-toggle" href="https://example.com" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">#}
+                    {{ user.first_name|upper }} Profile
+                  </a>
+                  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
+                    <li><a class="nav-link dropdown-item" href="{% url 'users:update' %}" role="button">Edit Account</a></li>
+                    <li><a class="nav-link dropdown-item" href="{% url 'users:update_password' %}" role="button">Change Password</a></li>
+                    <li><a class="nav-link dropdown-item" href="{% url 'users:logout' %}" role="button">Log out</a></li>
+                    {% if user in team.leader.all %}
+                        <li><a class="nav-link dropdown-item" href="{% url 'users:create_team'%}">My Team</a></li>
+                    {% endif %}
+                    <li role="separator" class="divider"></li>
+                        <li><a class="nav-link dropdown-item" href="{% url "users:detail" request.user.username %}">My Profile</a></li>
+                    {% if user and not user.is_anonymous %}
+                        <li role="separator" class="divider"></li>
+                        <li><a class="nav-link dropdown-item" href="{% url 'users:create_team'%}">Create Team</a></li>
+{#                        My Team (for team leaders only)#}
+                    {% endif %}
+                  </ul>
+{#                </div>#}
+                 </li>
+
             {% else %}
               <li class="nav-item">
                 <a id="sign-up-link" class="nav-link" href="{% url 'users:signup' %}">{% trans "Sign Up" %}</a>

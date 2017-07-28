@@ -28,10 +28,8 @@
         {% if event.state == 'A'%}
             <h2>{{ event.title|upper }}</h2>
             {% for team in event.team_set.all %}
-{#                {% with member= request.user in team.members %}#}
                 <div class="team-voting">
                     <h2>{{ team.title }}</h2>
-{#                    <h2>{{ team.all_members  }}</h2>#}
                     <p>{{ team.description }}</p>
                     {% for cat in cats %}
                         <form class="form-inline">
@@ -39,24 +37,23 @@
                             <div class="btn-group" role="group">
                                 <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 1 %}"
                                         name="{{ cat.1 }}-vote"
-                                        data-value="1" data-team="{{ team.id }}" data-cat="{{cat.0}}" {% if request.user in team.all_members %} data-member='True'{% endif %}>
+                                        data-value="1" data-team="{{ team.id }}" data-cat="{{cat.0}}">
                                        <i class="fa fa-star"></i>
                                 </button>
                                 <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 2 %}"
                                         name="{{ cat.1 }}-vote"
-                                        data-value="2" data-team="{{ team.id }}" data-cat="{{cat.0}}" {% if request.user in team.all_members %} data-member='True'{% endif %}>
+                                        data-value="2" data-team="{{ team.id }}" data-cat="{{cat.0}}">
                                        <i class="fa fa-star"></i><i class="fa fa-star"></i>
                                 </button>
                                 <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 3 %}"
                                         name="{{ cat.1 }}-vote"
-                                        data-value="3" data-team="{{ team.id }}" data-cat="{{cat.0}}" {% if request.user in team.all_members %} data-member='True'{% endif %}>
+                                        data-value="3" data-team="{{ team.id }}" data-cat="{{cat.0}}">
                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                                 </button>
                             </div>
                          </form>
                     {% endfor %}
                 </div>
-{#                {% endwith %}#}
            {% empty %}
                <div>No Teams yet.</div>
             {% endfor %}
@@ -77,46 +74,19 @@
     <script src="//cdnjs.cloudflare.com/ajax/libs/jquery-cookie/1.4.1/jquery.cookie.js"></script>
   </div>
     <script>
-
-    $( document ).ready(function() {
-        $('button').click(function() {
-            if ($(this).data("member")) {
-                $("#SameTeamvote").modal()
-            } else {
-                $(this).parents(".btn-group").find(".btn").removeClass("btn-primary").addClass("btn-secondary");
-                $(this).removeClass("btn-secondary").addClass("btn-primary");
-                var vdata = {
-                    team_id: $(this).attr("data-team"),
-                    category: $(this).attr("data-cat"),
-                    value: $(this).attr("data-value"),
-                    csrfmiddlewaretoken: '{{ csrf_token }}'
-                }
-                 $.post('{{ request.path }}collect/?', vdata)
-            }
-         })
-    });
     (function($) { $(function() {
-
+        $('button').click(function(){
+            $(this).parents(".btn-group").find(".btn").removeClass("btn-primary").addClass("btn-secondary");
+            $(this).removeClass("btn-secondary").addClass("btn-primary");
+            var vdata = {
+                team_id: $(this).attr("data-team"),
+                category: $(this).attr("data-cat"),
+                value: $(this).attr("data-value"),
+                csrfmiddlewaretoken: '{{ csrf_token }}'
+            }
+             $.post('{{ request.path }}collect/?', vdata)
+         })
     }); })(jQuery);
     </script>
 
 {% endblock %}
-{% block modal %}
-    <div class="modal fade" id="SameTeamvote" tabindex="-1" role="dialog">
-  <div class="modal-dialog" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        <h4 class="modal-title">No too Fast</h4>
-      </div>
-      <div class="modal-body">
-        <p>You can't vote for your own team, your vote not will be save. </p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-primary" data-dismiss="modal">Close</button>
-{#        <button type="button" class="btn btn-primary">Save changes</button>#}
-      </div>
-    </div><!-- /.modal-content -->
-  </div><!-- /.modal-dialog -->
-</div><!-- /.modal -->
-{% endblock modal%}

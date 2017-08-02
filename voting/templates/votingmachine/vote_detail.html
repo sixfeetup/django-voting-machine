@@ -36,17 +36,17 @@
                             <label>{{ cat.1 }}</label>
                             <div class="btn-group" role="group">
                                 <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 1 %}"
-                                        name="{{ cat.1 }}-vote"
+                                        name="{{ cat.1 }}-vote" {% if request.user in team.all_members %}disabled{% endif %}
                                         data-value="1" data-team="{{ team.id }}" data-cat="{{cat.0}}">
                                        <i class="fa fa-star"></i>
                                 </button>
                                 <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 2 %}"
-                                        name="{{ cat.1 }}-vote"
+                                        name="{{ cat.1 }}-vote" {% if request.user in team.all_members %}disabled{% endif %}
                                         data-value="2" data-team="{{ team.id }}" data-cat="{{cat.0}}">
                                        <i class="fa fa-star"></i><i class="fa fa-star"></i>
                                 </button>
                                 <button type="button" class="btn {% check_selected request.user.pk event.pk cat.0 team.pk 3 %}"
-                                        name="{{ cat.1 }}-vote"
+                                        name="{{ cat.1 }}-vote" {% if request.user in team.all_members %}disabled{% endif %}
                                         data-value="3" data-team="{{ team.id }}" data-cat="{{cat.0}}">
                                        <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
                                 </button>

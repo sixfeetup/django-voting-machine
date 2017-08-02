@@ -8,16 +8,14 @@
 
   <div class="list-group">
     {% for user in user_list %}
-{#      <a href="{% url 'users:detail' user.username %}" class="list-group-item">#}
-{#        class="list-group-item-heading"#}
-        <ul><h4>{{ user.first_name|upper  }} {{ user.last_name }}</h4>
+
+        <il><h4>{{ user.first_name|upper  }} {{ user.last_name }}</h4>
             {% if user.state == 'N' %}
                 <button class="btn btn-primary" type="submit" data-action="approve" data-user="{{ user.id }}">Approve</button>
             {% else %}
                 <button class="btn btn-success" type="submit" data-action="unapprove" data-user="{{ user.id }}">Un-Approve</button>
             {% endif %}
-{#      </a>#}
-        </ul>
+        </il>
     {% endfor %}
   </div>
 </div>

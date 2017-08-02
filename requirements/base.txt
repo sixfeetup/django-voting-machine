@@ -50,5 +50,5 @@ redis>=2.10.5
 # Your custom requirements go here
 django-searchable-select==1.4.5
 
-
+django-fsm==2.6.0
 

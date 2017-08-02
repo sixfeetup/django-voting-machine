@@ -30,6 +30,9 @@ class User(AbstractUser):
         default=STATUS_NEW,
     )
 
+    class Meta:
+        ordering = ( 'first_name', 'last_name',)
+
     # @fsm_log_by
     @transition(
         field=state,
@@ -41,7 +44,7 @@ class User(AbstractUser):
         # TODO send an e-mail notification
         pass
         from django.core.mail import send_mail
-        send_mail("welcome", "click here to log in: ...", "osi@6fup.com", [self.username])
+        send_mail("welcome ", "Thanks for participating in this event with us!", "osi@6fup.com", [self.username])
 
     @transition(
         field=state,

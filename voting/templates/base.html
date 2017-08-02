@@ -62,7 +62,6 @@
                     {% endif %}
                 </li>
 
-
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="{% url "users:detail" request.user.username %}" id="dropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                     {{ user.first_name|upper }} Profile </a>
@@ -88,7 +87,6 @@
                             <a class="nav-link dropdown-item" href="{% url 'users:update_team' team_id=team.id %}" role="button" >Update Team {{ team.title }}</a>
                         {% endfor %}
                     {% endif %}
-
 
 
                   </ul>

@@ -1,3 +1,4 @@
+from django.http import HttpResponse
 from django.core.urlresolvers import reverse
 from django.views.generic import DetailView, ListView, RedirectView, UpdateView
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -171,3 +172,22 @@ def logout_view(request):
     return redirect('home')
 
 
+@login_required
+def approve_user(request, id, action):
+    try:
+        user = User.objects.get(id=id)
+        if action == 'approve':
+            user.approve()
+            user.save()
+        elif action == 'unapprove':
+            user.unapprove()
+            user.save()
+        else:
+            raise Exception("unexpected action:" + action)
+        to_json = {
+            'status': "OK",
+        }
+    except Exception as e:
+        to_json = {'status': 'FAIL',  'message': 'Could not change user state.', 'reason': str(e)}
+
+    return HttpResponse(json.dumps(to_json), content_type='application/json')

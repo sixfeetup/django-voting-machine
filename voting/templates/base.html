@@ -69,12 +69,18 @@
                   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink">
                     <li><a class="nav-link dropdown-item" href="{% url 'users:update' %}" role="button">Edit Account</a></li>
                     <li><a class="nav-link dropdown-item" href="{% url 'users:update_password' %}" role="button">Change Password</a></li>
-                    <li><a class="nav-link dropdown-item" href="{% url 'users:logout' %}" role="button">Log out</a></li>
+                    <li><a class="nav-link dropdown-item" href="{% url 'users:logout' %}" role="button">Log Out</a></li>
+
+
                     {% if user in team.leader.all %}
+                        <li role="separator" class="divider"></li>
                         <li><a class="nav-link dropdown-item" href="{% url 'users:create_team'%}">My Team</a></li>
                     {% endif %}
+
                     <li role="separator" class="divider"></li>
                         <li><a class="nav-link dropdown-item" href="{% url "users:detail" request.user.username %}">My Profile</a></li>
+
+
                     {% if user and not user.is_anonymous %}
                         <li role="separator" class="divider"></li>
                         <li><a class="nav-link dropdown-item" href="{% url 'users:create_team'%}">Create Team</a></li>
@@ -82,6 +88,15 @@
                             <a class="nav-link dropdown-item" href="{% url 'users:update_team' team_id=team.id %}" role="button" >Update Team {{ team.title }}</a>
                         {% endfor %}
                     {% endif %}
+
+
+                    {% if request.user.is_superuser %}
+                        <li role="separator" class="divider"></li>
+                        <li><a class="nav-link dropdown-item" href="{% url 'admin:index'%}">Admin Site</a></li>
+                        <li><a class="nav-link dropdown-item" href="{% url 'users:list'%}">User List</a></li>
+                    {% endif %}
+
+
                   </ul>
 {#                </div>#}
                  </li>

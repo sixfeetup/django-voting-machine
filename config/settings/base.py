@@ -37,9 +37,11 @@ DJANGO_APPS = [
 THIRD_PARTY_APPS = [
     'crispy_forms',  # Form layouts
     'searchableselect',
-#    'allauth',  # registration
-#    'allauth.account',  # registration
-#    'allauth.socialaccount',  # registration
+    'django_fsm',
+    # 'django_fsm_log',
+    #'allauth',  # registration
+    #'allauth.account',  # registration
+    #'allauth.socialaccount',  # registration
     #'registration', #django-registration-redux
     #'bootstrap3',
 ]

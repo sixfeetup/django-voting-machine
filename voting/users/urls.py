@@ -15,6 +15,11 @@ urlpatterns = [
         name='list'
     ),
     url(
+        regex=r'^list/(?P<action>(approve|unapprove))/$',
+        view=views.approve_user,
+        name='approve_user'
+    ),
+    url(
         regex=r'^~redirect/$',
         view=views.UserRedirectView.as_view(),
         name='redirect'

@@ -36,9 +36,7 @@
                                         data-action="join" data-team="{{ team.id }}">JOIN</button>
                             {% endif %}
                         </h3>
-        {#                </ol>#}
-{#                        <p> Event: {{ team.event.title }}</p>#}
-                        <p> Description: {{ team.description}}</p>
+                        <p> Description: {{team.description}}</p>
                         <p> Team Leader: {{team.leader.first_name }} {{team.leader.last_name }}</p>
                         <p> Members:
                         <ol>{% for member in team.all_members %}

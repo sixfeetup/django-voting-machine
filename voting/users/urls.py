@@ -15,7 +15,7 @@ urlpatterns = [
         name='list'
     ),
     url(
-        regex=r'^list/(?P<action>(approve|unapprove))/$',
+        regex=r'^list/(?P<user_id>[\w.@+-]+)/(?P<action>(approve|unapprove))/$',
         view=views.approve_user,
         name='approve_user'
     ),

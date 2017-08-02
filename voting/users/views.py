@@ -33,8 +33,9 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
     permanent = False
 
     def get_redirect_url(self):
-        if self.request.user.is_superuser:
-            return reverse('admin:index')
+        #if you want make thta from login the admin go direct to the admin site
+        # if self.request.user.is_superuser:
+        #     return reverse('admin:index')
 
         return reverse('users:detail',
                        kwargs={'username': self.request.user.username})
@@ -173,9 +174,10 @@ def logout_view(request):
 
 
 @login_required
-def approve_user(request, id, action):
+def approve_user(request, user_id, action):
     try:
-        user = User.objects.get(id=id)
+        # user = request.user
+        user = User.objects.get(id=user_id)
         if action == 'approve':
             user.approve()
             user.save()
@@ -191,3 +193,23 @@ def approve_user(request, id, action):
         to_json = {'status': 'FAIL',  'message': 'Could not change user state.', 'reason': str(e)}
 
     return HttpResponse(json.dumps(to_json), content_type='application/json')
+
+
+# @login_required
+# def join_team(request, team_id, action):
+#     try:
+#         user = request.user
+#         team = Team.objects.get(id=team_id)
+#         if action == 'join':
+#             add_user_to_team(user, team)
+#         elif action == 'leave':
+#             remove_user_from_team(user, team)
+#         else:
+#             raise Exception("unexpected action:" + action)
+#         to_json = {
+#             'status': "OK",
+#         }
+#     except Exception as e:
+#         to_json = {'status': 'FAIL',  'message': 'Could not join team.', 'reason': str(e)}
+#
+#     return HttpResponse(json.dumps(to_json), content_type='application/json')

@@ -10,23 +10,24 @@
     {% for user in user_list %}
 {#      <a href="{% url 'users:detail' user.username %}" class="list-group-item">#}
 {#        class="list-group-item-heading"#}
-        <ul><h4>{{ user.username|upper }}</h4>
+        <ul><h4>{{ user.first_name|upper  }} {{ user.last_name }}</h4>
             {% if user.state == 'N' %}
-                <button class="btn btn-primary" type="submit" data-action="approve">Approve</button>
+                <button class="btn btn-primary" type="submit" data-action="approve" data-user="{{ user.id }}">Approve</button>
             {% else %}
-                <button class="btn btn-success" type="submit" data-action="unapprove">un-Approve</button>
+                <button class="btn btn-success" type="submit" data-action="unapprove" data-user="{{ user.id }}">un-Approve</button>
             {% endif %}
 {#      </a>#}
         </ul>
     {% endfor %}
   </div>
 </div>
-    <script>
+<script>
         (function($) { $(function() {
             $('button').click(function(){
                 $btn = $(this);
+                var user_id = $(this).attr("data-user");
                 var taction = $(this).attr("data-action");
-                 $.post('/users/list/team/' + '/' + taction + "/",
+                 $.post('/users/list/' + user_id + '/' + taction + "/",
                         {csrfmiddlewaretoken: '{{ csrf_token }}'},
                         function(data){
                             if (data.status == 'OK') {

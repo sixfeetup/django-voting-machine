@@ -182,6 +182,9 @@ def approve_user(request, user_id, action):
         user = User.objects.get(id=user_id)
         if action == 'approve':
             user.approve()
+            from django.core.mail import send_mail
+            send_mail("Welcome to the Voting Machine", "We are happy to have you on board", "admin@sixfeetup.com",
+                      ['admin@example.com'], fail_silently=False)
             user.save()
         elif action == 'unapprove':
             user.unapprove()

@@ -41,8 +41,11 @@ class Event(models.Model):
 
     def winner(self):
         teams = self.team_set.all()
+        ranked_teams = []
         sorted_teams = sorted(teams, key=lambda team: team.total_final_result(), reverse=True)
-        return sorted_teams
+        for i, team in enumerate(sorted_teams):
+            ranked_teams.append({"team": team, "opacity": self.result_opacity(i)})
+        return ranked_teams
 
     def status(self):
         now = datetime.now(tz=UTC)
@@ -64,6 +67,13 @@ class Event(models.Model):
         # value = self.value_set.all()
         #
         # for user in self.user
+
+    def result_opacity(self, rank):
+        team_count = len(self.team_set.all())
+        # we don't want to go all the way to 0 opacity,
+        # so we get increments based on .7 instead of 1
+        increment = .7 / team_count
+        return 1-(rank * increment)-.2
 
 
 class Value(models.Model):

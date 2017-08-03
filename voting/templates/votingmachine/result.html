@@ -11,26 +11,34 @@
         <a href="{% url 'votingmachine:vote_detail' event.id %}" class="btn btn-info">Vote Now</a>
 
     {% else %}
-        {%  for team in event.winner %}
-            <div class="row">
-                <div class="col-md-9">
-                    {%  if forloop.counter < 2 %}
-                        <h1>The winner is: {{ team.title|upper }}</h1>
-{#                        <h3>{{team.title|upper}} </h3>#}
-                    {%else%}
-                        <p>{{ team.title}} </p>
-                    {% endif %}
-                    <h6>Total Score: {{ team.total_final_result }} %</h6>
-                    <h5>Members:</h5>
-                    <h6>{% for member in team.all_members %}
-                        <li>{{member.first_name}} {{member.last_name}}</li>
-                    {% endfor %}</h6>
-
+        <div class="row results">
+            <div class="col-md-9">
+                <div class="row">
+                    <div class="col-xs-8">
+                        <strong>Team</strong>
+                    </div>
+                    <div class="col-xs-4">
+                        <strong>Score</strong>
+                    </div>
                 </div>
+                {% for row in event.winner %}
+                    <div class="row result-row-ontop{% if forloop.last %} last{% endif %}">
+                        <div class="col-xs-8 result-content">
+                            {{ row.team.title}}
+                        </div>
+                        <div class="col-xs-4 result-content">
+                            {{ row.team.total_final_result }}%
+                        </div>
+                    </div>
+                    <div class="row result-row" style="opacity: {{ row.opacity }}"></div>
+                {% endfor %}
             </div>
-            <hr/>
-        {% endfor %}
-      This is the  {{ event}}. This event is {{ event.status }}, it started at {{ event.start_date }}  and ended at {{ event.end_date }}
+        </div>
+        <div class="row">
+            <div class="col-md-12">
+                <p class="result-footer">This is the <strong>{{ event }}</strong>. This event is {{ event.status }}. It started at {{ event.start_date }} and ended at {{ event.end_date }}</p>
+            </div>
+        </div>
 
     {% endif %}
     {% endif %}

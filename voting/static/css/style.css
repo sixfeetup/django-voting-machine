@@ -175,3 +175,30 @@ button.c{
   height:100%;
 }
 
+.row.results {
+    margin-left: 0;
+}
+.result-row-ontop {
+    position:relative;
+    height: 50px;
+    z-index: 10;
+    border: 1px solid #4E7333;
+    border-bottom-width: 0;
+}
+.result-row-ontop.last {
+    border-bottom-width: 1px;
+}
+.result-row {
+    position:relative;
+    background-color: #8ccc5b;
+    height: 50px;
+    margin-top: -50px;
+}
+.result-content {
+    font-size: 20px;
+    line-height: 50px;
+    color: #4E7333;
+}
+.result-footer {
+    margin-top: 1em;
+}

@@ -199,6 +199,9 @@ button.c{
     line-height: 50px;
     color: #4E7333;
 }
+.result-content .medal {
+    font-size: 30px;
+}
 .result-footer {
     margin-top: 1em;
 }

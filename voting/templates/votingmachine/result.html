@@ -23,10 +23,14 @@
                 </div>
                 {% for row in event.winner %}
                     <div class="row result-row-ontop{% if forloop.last %} last{% endif %}">
-                        <div class="col-xs-8 result-content">
-                            {{ row.rank }}. {{ row.team.title}}
+                        <div class="col-xs-8 result-content"{% if row.rank > 3 %} style="font-size: 16px"{% endif %}>
+                            {% if row.rank == 1 %}<span class="medal">🥇</span>
+                            {% elif row.rank == 2 %}<span class="medal">🥈</span>
+                            {% elif row.rank == 3 %}<span class="medal">🥉</span>
+                            {% else %}{{ row.rank }}.{% endif %}
+                            {{ row.team.title}}
                         </div>
-                        <div class="col-xs-4 result-content">
+                        <div class="col-xs-4 result-content"{% if row.rank > 3 %} style="font-size: 16px"{% endif %}>
                             {{ row.team.total_final_result }}%
                         </div>
                     </div>

@@ -127,7 +127,7 @@ def signup(request):
             user.is_active = True
             user.save()
             email = user.username
-            send_mail('Welcome to Six Feet Up VotingMachine', 'Thank you for confirming your email and for participating with us!', 'admin@sixfeetup.com', [email, ])
+            send_mail('Welcome to Six Feet Up VotingMachine', 'Thanks for participating with us!', 'admin@sixfeetup.com', [email, ])
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)

@@ -44,8 +44,8 @@ class User(AbstractUser):
         # TODO send an e-mail notification
         pass
         from django.core.mail import send_mail
-        send_mail("Welcome to Six Feet Up VotingMachine",
-                  "Your email has been approved, Thanks for participating in this event with us!",
+        send_mail("VotingMachine",
+                  "Your email has been approved, we are happy to have you on board!",
                   "admin@sixfeetup.com", [self.username],
                   fail_silently=False,
                   )

@@ -43,8 +43,16 @@ class Event(models.Model):
         teams = self.team_set.all()
         ranked_teams = []
         sorted_teams = sorted(teams, key=lambda team: team.total_final_result(), reverse=True)
-        for i, team in enumerate(sorted_teams):
-            ranked_teams.append({"team": team, "opacity": self.result_opacity(i)})
+        for team in sorted_teams:
+            scores = self.result_position(sorted_teams)
+            rank = scores.index(
+                team.total_final_result()
+            ) + 1
+            ranked_teams.append({
+                "team": team,
+                "opacity": self.result_opacity(len(scores), rank),
+                "rank": rank
+            })
         return ranked_teams
 
     def status(self):
@@ -68,12 +76,18 @@ class Event(models.Model):
         #
         # for user in self.user
 
-    def result_opacity(self, rank):
-        team_count = len(self.team_set.all())
+    def result_opacity(self, count, rank):
         # we don't want to go all the way to 0 opacity,
         # so we get increments based on .7 instead of 1
-        increment = .7 / team_count
+        increment = .7 / count
         return 1-(rank * increment)-.2
+
+    def result_position(self, sorted_teams):
+        totals = []
+        for team in sorted_teams:
+            totals.append(team.total_final_result())
+        scores = list(set(totals))
+        return sorted(scores, reverse=True)
 
 
 class Value(models.Model):

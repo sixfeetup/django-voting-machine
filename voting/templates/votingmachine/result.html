@@ -24,7 +24,7 @@
                 {% for row in event.winner %}
                     <div class="row result-row-ontop{% if forloop.last %} last{% endif %}">
                         <div class="col-xs-8 result-content">
-                            {{ row.team.title}}
+                            {{ row.rank }}. {{ row.team.title}}
                         </div>
                         <div class="col-xs-4 result-content">
                             {{ row.team.total_final_result }}%

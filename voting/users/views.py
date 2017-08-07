@@ -18,6 +18,7 @@ from .forms import SignUpForm, CreateTeamForm
 from .tokens import account_activation_token
 
 from .models import User
+from django.contrib.sites.shortcuts import get_current_site
 from voting.votingmachine.models import Event, Team, Value
 
 
@@ -127,7 +128,13 @@ def signup(request):
             user.is_active = True
             user.save()
             email = user.username
-            send_mail('Welcome to Six Feet Up VotingMachine', 'Thanks for participating with us!', 'admin@sixfeetup.com', [email, ])
+            current_site =  get_current_site(request)
+
+            send_mail('Welcome to %s' % current_site.name,
+                      'Thank you for registering with %s (%s). Once your registration has been approved, you will receive an email with login instructions.\n\nWe appreciate it.\n\n - The %s team.' % (current_site.name, current_site, current_site.name),
+                      'admin@%s' % current_site.domain,
+                      [email],
+                      )
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=user.username, password=raw_password)
             login(request, user)

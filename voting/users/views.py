@@ -128,8 +128,7 @@ def signup(request):
             user.is_active = True
             user.save()
             email = user.username
-            current_site =  get_current_site(request)
-
+            current_site = get_current_site(request)
             send_mail('Welcome to %s' % current_site.name,
                       'Thank you for registering with %s (%s). Once your registration has been approved, you will receive an email with login instructions.\n\nWe appreciate it.\n\n - The %s team.' % (current_site.name, current_site, current_site.name),
                       'admin@%s' % current_site.domain,

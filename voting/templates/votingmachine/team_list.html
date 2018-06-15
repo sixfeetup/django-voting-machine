@@ -23,17 +23,20 @@
     </div>
     </div>
         {% for event in event_list %}
-            {% if event.status == 'open'%}
+            {% if event.status in 'openclosedvoting' %}
             <h4>Event: {{ event.title|upper }}</h4>
                 {% for team in event.team_set.all %}
-                    {% if team.event.status == 'open'%}
+{#                    {% if team.event.status == 'open'%}#}
                         <ul> <h3>{{ team.title|upper  }}
-                            {% if request.user in team.members.all %}
-                                <button class="btn btn-primary" type="submit"
-                                        data-action="leave" data-team="{{ team.id }}">LEAVE</button>
-                            {% else %}
-                                <button class="btn btn-success" type="submit"
-                                        data-action="join" data-team="{{ team.id }}">JOIN</button>
+                            {% if team.event.status == 'open'%}
+                                {% if request.user in team.members.all %}
+
+                                    <button class="btn btn-primary" type="submit"
+                                            data-action="leave" data-team="{{ team.id }}">LEAVE</button>
+                                {% else %}
+                                    <button class="btn btn-success" type="submit"
+                                            data-action="join" data-team="{{ team.id }}">JOIN</button>
+                                {% endif %}
                             {% endif %}
 
                         {% if request.user.is_superuser %}
@@ -48,7 +51,7 @@
                             {% endfor %}</ol></p>
                         <hr>
                         </ul>
-                    {% endif %}
+{#                    {% endif %}#}
                 {% empty %}
                     <li> There are no teams created for this event yet.</li>
                 {% endfor %}

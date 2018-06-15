@@ -93,15 +93,21 @@ def join_team(request, team_id, action):
     try:
         user = request.user
         team = Team.objects.get(id=team_id)
-        if action == 'join':
-            add_user_to_team(user, team)
-        elif action == 'leave':
-            remove_user_from_team(user, team)
+        event = team.event
+        if event.status == 'open':
+            if action == 'join':
+                add_user_to_team(user, team)
+            elif action == 'leave':
+                remove_user_from_team(user, team)
+            else:
+                raise Exception("unexpected action:" + action)
+            to_json = {
+                'status': "OK",
+            }
+
         else:
-            raise Exception("unexpected action:" + action)
-        to_json = {
-            'status': "OK",
-        }
+            to_json = {'status': 'FAIL', 'message': 'The event is close you can not join temas', }
+
     except Exception as e:
         to_json = {'status': 'FAIL',  'message': 'Could not join team.', 'reason': str(e)}
 

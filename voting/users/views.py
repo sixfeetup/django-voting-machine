@@ -6,6 +6,7 @@ from django.views.generic.base import TemplateView
 
 from django.contrib.auth import authenticate, login, logout
 from django.contrib.auth.decorators import login_required
+from django.contrib.messages import api as messages
 from django.shortcuts import render, redirect
 from django.utils.encoding import force_text
 from django.utils.http import urlsafe_base64_decode
@@ -152,6 +153,7 @@ def create_team(request):
         form1 = CreateTeamForm(request.POST)
         if form1.is_valid():
             new_team = form1.save()
+            messages.success(request, 'The Team was created successfully!, Thanks.')
             return redirect('home')
     else:
         form1 = CreateTeamForm()

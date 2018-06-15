@@ -153,7 +153,7 @@ def create_team(request):
         form1 = CreateTeamForm(request.POST)
         if form1.is_valid():
             new_team = form1.save()
-            messages.success(request, 'The Team was created successfully!, Thanks.')
+            messages.success(request, 'The Team was created , Thanks.')
             return redirect('home')
     else:
         form1 = CreateTeamForm()

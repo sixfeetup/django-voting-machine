@@ -270,7 +270,6 @@ ADMIN_URL = r'^admin/'
 # ------------------------------------------------------------------------------
 
 
-
 ACCOUNT_ACTIVATION_DAYS = 2
 REGISTRATION_AUTO_LOGIN = True
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
@@ -281,5 +280,5 @@ DEFAULT_FROM_EMAIL='osiris@sixfeetup.com'
 # EMAIL_HOST_USER = 'votingmachine_app'
 # EMAIL_HOST_PASSWORD = 'mys3cr3tp4ssw0rd'
 SERVER_EMAIL = 'osirisgclark@gmail.com'
-DEFAULT_FROM_EMAIL = 'Osiris'
+DEFAULT_FROM_EMAIL = 'Admin'
 INTERNAL_IPS = ['127.0.0.1']

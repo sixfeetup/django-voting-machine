@@ -1,3 +1,5 @@
+from datetime import timedelta
+
 from django.db import models
 from django.db.models import Avg, Count, Sum
 from decimal import Decimal
@@ -57,8 +59,11 @@ class Event(models.Model):
 
     def status(self):
         now = datetime.now(tz=UTC)
-        if self.start_date < now < self.end_date:
+        vote_time = self.end_date - timedelta( hours=2 )
+        if self.start_date < now < vote_time:
             return 'open'
+        elif vote_time < now < self.end_date:
+            return 'voting'
         elif self.end_date < now:
             return 'closed'
         elif self.start_date > now:
@@ -69,7 +74,7 @@ class Event(models.Model):
 
     def is_user_ballot_complete(self, user):
         """check that the user has Values for every team and category they are allowed to vote for, within this event
-        
+
         """
         # teams = self.team_set.all()
         # value = self.value_set.all()

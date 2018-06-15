@@ -9,11 +9,12 @@
     <link rel="stylesheet" type="text/css" href="{% static 'css/style.css' %}" />
     {% if latest_event_list %}
     <ul>
-    {% for event in latest_event_list %}
-        <li><a href="{% url 'votingmachine:vote_detail' event.id %}">{{ event.event_text }}</a></li>
-    {% endfor %}
+        {% for event in latest_event_list %}
+            <li><a href="{% url 'votingmachine:vote_detail' event.id %}">{{ event.event_text }}</a></li>
+        {% endfor %}
     </ul>
-{% else %}
+    {% else %}
     <p>No Events available.</p>
-{% endif %}
+    {% endif %}
+</div>
 {% endblock %}

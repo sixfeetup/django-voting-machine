@@ -22,5 +22,8 @@
     {% endfor %}
     <button type="submit">Log in</button>
     <a href="{% url 'users:signup' %}">New to My Site? Sign up</a>
+  <br>
+  <br>
+  <a href="{% url 'auth:password_reset' %}">Reset password</a>
   </form>
 {% endblock %}

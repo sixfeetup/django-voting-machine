@@ -36,7 +36,7 @@ class UserRedirectView(LoginRequiredMixin, RedirectView):
     permanent = False
 
     def get_redirect_url(self):
-        #if you want make thta from login the admin go direct to the admin site
+        # if you want make that from login the admin go direct to the admin site
         # if self.request.user.is_superuser:
         #     return reverse('admin:index')
 
@@ -125,12 +125,16 @@ def signup(request):
         form = SignUpForm(request.POST)
         if form.is_valid():
             user = form.save(commit=False)
+            user.email = user.username
             user.is_active = True
             user.save()
             email = user.username
             current_site = get_current_site(request)
             send_mail('Welcome to %s' % current_site.name,
-                      'Thank you for registering with %s (%s). Once your registration has been approved, you will receive an email with login instructions.\n\nWe appreciate it.\n\n - The %s team.' % (current_site.name, current_site, current_site.name),
+                      'Thank you for registering with %s (%s). Once your '
+                      'registration has been approved, you will receive an email'
+                      ' with login instructions.\n\nWe appreciate it.\n\n - The'
+                      ' %s team.' % (current_site.name, current_site, current_site.name),
                       'admin@%s' % current_site.domain,
                       [email],
                       )

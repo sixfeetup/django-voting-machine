@@ -35,6 +35,10 @@
                                 <button class="btn btn-success" type="submit"
                                         data-action="join" data-team="{{ team.id }}">JOIN</button>
                             {% endif %}
+
+                        {% if request.user.is_superuser %}
+                            <a href="{% url 'users:update_team' team_id=team.id %}" class="btn btn-info" role="button">EDIT</a>
+                        {% endif %}
                         </h3>
                         <p> Description: {{team.description}}</p>
                         <p> Team Leader: {{team.leader.first_name }} {{team.leader.last_name }}</p>

@@ -134,8 +134,7 @@ def signup(request):
             send_mail('Welcome to %s' % current_site.name,
                       'Thank you for registering with %s (%s). Once your '
                       'registration has been approved, you will receive an email'
-                      ' with login instructions.\n\nWe appreciate it.\n\n - The'
-                      ' %s team.' % (current_site.name, current_site, current_site.name),
+                      ' with login instructions.' % current_site.name,
                       'admin@%s' % current_site.domain,
                       [email],
                       )

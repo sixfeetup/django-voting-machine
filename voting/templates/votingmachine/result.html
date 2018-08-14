@@ -40,9 +40,10 @@
                         <div class="col-lg-4 result-content"{% if row.rank > 3 %} style="font-size: 14px"{% endif %}>
                           {{ row.team.all_members.first_name }} {{ row.team.all_members.last_name  }}
                            {% for member in row.team.all_members %}
-{#                            {% if forloop.first %}{% elif forloop.last %}, and {% else %}, {% endif %}{{member.first_name}} {{ member.last_name }} {% endfor %}.#}
-                        {% if forloop.first %}{{member.first_name}} {{ member.last_name }} {% else %}{% if forloop.last %} and {% else %}, {% endif %}{{member.first_name}} {{ member.last_name }} {% endif %}
-                          {% endfor %}.
+                            {% if forloop.first %}{% elif forloop.last %}, and {% else %}, {% endif %}{% if member.first_name or member.last_name %}{{member.first_name}} {{ member.last_name }}{% else %} {{ member.username }}{% endif %} {% endfor %}.
+
+{#                          {% if forloop.first %}{% if member.first_name or member.last_name %}{{member.first_name}} {{ member.last_name }}{% else %} {{ member.username }}{% endif %}{% else %}{% if forloop.last %} and {% else %}, {% endif %}{{member.first_name}} {{ member.last_name }} {% endif %}#}
+{#                          {% endfor %}.#}
                         </div>
                     </div>
                 {% endfor %}

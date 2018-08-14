@@ -47,7 +47,11 @@
                         <p> Team Leader: {{team.leader.first_name }} {{team.leader.last_name }}</p>
                         <p> Members:
                         <ol>{% for member in team.all_members %}
-                                <li>{{member.first_name}} {{ member.last_name }}</li>
+                                {% if member.first_name or member.last_name %}
+                                    <li>{{member.first_name}} {{ member.last_name }}</li>
+                                {% else %}
+                                    <li>{{ member.username }}</li>
+                                {% endif %}
                             {% endfor %}</ol></p>
                         <hr>
                         </ul>
